@@ -1,5 +1,6 @@
 package com.anderson.banco.model;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -21,7 +22,7 @@ public class Conta{
 	private String id;
 
 	@Column()
-	private double valor;
+	private BigDecimal valor;
 	
 	//Anotação Column é para configurar as propriedades da coluna
 	//a propriedade nullable é para informar se é ou não null (NOT NULL)
@@ -52,10 +53,10 @@ public class Conta{
 	public void setRg(String rg) {
 		this.rg = rg;
 	}
-	public double getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
-	public void setValor(double valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 	

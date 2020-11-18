@@ -44,7 +44,7 @@ public class ContaController {
 	public ResponseEntity<List<Conta>> criarConta(@RequestBody Conta conta){
 		
 		conta.setId(UUID.randomUUID().toString());
-		conta.setValor(0);
+		conta.setValor(new BigDecimal("0.00"));
 		
 		contas.save(conta);
 		
@@ -52,11 +52,11 @@ public class ContaController {
 	}
 
 	@PutMapping(value="depositar/{uuid}")
-	public ResponseEntity<Conta> depositarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") double valor){
+	public ResponseEntity<Conta> depositarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
 		Conta c = contas.findById(uuid).get();
 		
-		if(valor > 0 && valor <= 5000) {
-			c.setValor(c.getValor() + valor);
+		if(valor.doubleValue() > 0 && valor.doubleValue() <= 5000) {
+			c.setValor(c.getValor().add(valor));
 			contas.save(c);
 			
 			return new ResponseEntity<Conta>(c, HttpStatus.OK);
@@ -64,11 +64,15 @@ public class ContaController {
 	}
 	
 	@PutMapping(value="sacar/{uuid}")
-	public ResponseEntity<Conta> sacarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") double valor){
+	public ResponseEntity<Conta> sacarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
+		
+		DecimalFormat df = new DecimalFormat("0.00");
+		
 		Conta c = contas.findById(uuid).get();
 		
-		if(valor > 0 && valor <= c.getValor()) {
-			c.setValor(c.getValor() - valor);
+		
+		if(valor.doubleValue() > 0 && valor.doubleValue() <= c.getValor().doubleValue()) {
+			c.setValor(c.getValor().subtract(valor));
 			contas.save(c);
 			
 			return new ResponseEntity<Conta>(c, HttpStatus.OK);
@@ -78,29 +82,11 @@ public class ContaController {
 	@DeleteMapping(value="/{uuid}")
 	public ResponseEntity<String> deletarConta(@PathVariable String uuid){
 		
-		if(contas.findById(uuid).get().getValor() == 0){
+		if(contas.findById(uuid).get().getValor().doubleValue() == 0){
 			contas.deleteById(uuid);
 			return new ResponseEntity<String>("Deletado com sucesso", HttpStatus.OK);
 		}else return new ResponseEntity<String>("Você não pode deletar essa conta, pois ainda tem dinheiro para sacar", HttpStatus.BAD_REQUEST);
 			
-	}
-	
-	//Só para teste de numeros decimais
-	
-	@GetMapping(value="/teste")
-	public String teste() {
-		BigDecimal bd = new BigDecimal("15.9832");
-		DecimalFormat df = new DecimalFormat("0.00");
-		
-		
-		//n1 = Double.parseDouble(df.format(n1).replaceAll(",", "."));
-		
-		
-
-		//double resp = Double.parseDouble(df.format(r).replaceAll(",", "."));
-		//String resposta = "a resposta é " + resp;
-		//System.out.println("n1: " + n1);
-		return df.format(bd);
 	}
 	
 }
