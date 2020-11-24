@@ -2,15 +2,15 @@ package com.anderson.banco.exceptions;
 
 import java.util.Date;
 
-public class ResponseException {
+public class ResponseExceptionDetails {
 	private Date data;
 	private int codErro;
 	private String nomeErro;
 	private String mensagem;
 	
-	public ResponseException() {}
+	public ResponseExceptionDetails() {}
 	
-	public ResponseException(Date data, int codE, String nomeE, String msg) {
+	public ResponseExceptionDetails(Date data, int codE, String nomeE, String msg) {
 		this.data = data;
 		this.codErro = codE;
 		this.nomeErro = nomeE;

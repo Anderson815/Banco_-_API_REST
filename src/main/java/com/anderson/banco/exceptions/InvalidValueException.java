@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-public class InvalidValue extends RuntimeException{
-	public InvalidValue(String msg) {
+public class InvalidValueException extends RuntimeException{
+	public InvalidValueException(String msg) {
 		super(msg);
 	}
 }

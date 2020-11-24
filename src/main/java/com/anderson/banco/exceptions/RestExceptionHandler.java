@@ -12,33 +12,33 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class RestExceptionHandler {
 	
-	@ExceptionHandler(NotFound.class)
-	public ResponseEntity<ResponseException> responseNotFound(NotFound e){
-		ResponseException erro = new ResponseException(new Date(), HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.name(), e.getMessage());	
+	@ExceptionHandler(NotFoundException.class)
+	public ResponseEntity<ResponseExceptionDetails> responseNotFoundException(NotFoundException e){
+		ResponseExceptionDetails erro = new ResponseExceptionDetails(new Date(), HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.name(), e.getMessage());	
 		return new ResponseEntity<>(erro, HttpStatus.NOT_FOUND);
 	}
 	
-	@ExceptionHandler(InvalidValue.class)
-	public ResponseEntity<ResponseException> responseInvalidValue(InvalidValue e){
-		ResponseException erro = new ResponseException(new Date(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
+	@ExceptionHandler(InvalidValueException.class)
+	public ResponseEntity<ResponseExceptionDetails> responseInvalidValueException(InvalidValueException e){
+		ResponseExceptionDetails erro = new ResponseExceptionDetails(new Date(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
 		return new ResponseEntity<>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(DeleteAccountException.class)
-	public ResponseEntity<ResponseException> responseDeleteAccountException(DeleteAccountException e){
-		ResponseException erro = new ResponseException(new Date(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
+	public ResponseEntity<ResponseExceptionDetails> responseDeleteAccountException(DeleteAccountException e){
+		ResponseExceptionDetails erro = new ResponseExceptionDetails(new Date(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
 		return new ResponseEntity<>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
-	public ResponseEntity<ResponseException> responseConstraintViolationException(ConstraintViolationException e){
-		ResponseException erro = new ResponseException(new Date(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
+	public ResponseEntity<ResponseExceptionDetails> responseConstraintViolationException(ConstraintViolationException e){
+		ResponseExceptionDetails erro = new ResponseExceptionDetails(new Date(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
 		return new ResponseEntity<>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@ExceptionHandler(PropertyValueException.class)
-	public ResponseEntity<ResponseException> responsePropertyValueException(PropertyValueException e){
-		ResponseException erro = new ResponseException(new Date(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
+	public ResponseEntity<ResponseExceptionDetails> responsePropertyValueException(PropertyValueException e){
+		ResponseExceptionDetails erro = new ResponseExceptionDetails(new Date(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
 		return new ResponseEntity<>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
