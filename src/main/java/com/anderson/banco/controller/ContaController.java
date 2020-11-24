@@ -1,9 +1,8 @@
 package com.anderson.banco.controller;
 
 import java.util.List;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.UUID;
+import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,74 +18,65 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anderson.banco.model.Conta;
-import com.anderson.banco.repository.Contas;
+import com.anderson.banco.service.ContaService;
 
 @RestController
 @RequestMapping("/conta")
 public class ContaController {
-	
+		
 	@Autowired
-	Contas contas;
+	ContaService contaService;
 	
 	@GetMapping(value="/{uuid}")
-	public ResponseEntity<Conta> getConta(@PathVariable String uuid){
-		if(contas.findById(uuid).isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
-		else return new ResponseEntity(contas.findById(uuid).get(), HttpStatus.OK);			
+	public ResponseEntity<Conta> getConta(@PathVariable String uuid){		
+		
+		//Considerar: Verificação do UUID, status HTTP  caso não encontre NO_CONTENT
+		
+		return new ResponseEntity<>(contaService.getConta(uuid), HttpStatus.OK);
 	}
 		
 	@GetMapping
 	public ResponseEntity<List<Conta>> getContas(){
-		//ResponseEntity é um objeto de resposta do tipo REST devolvendo um JSON completo
-		return new ResponseEntity(contas.findAll(), HttpStatus.OK);
+		return new ResponseEntity(contaService.getContas(), HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<List<Conta>> criarConta(@RequestBody Conta conta){
-		
-		conta.setId(UUID.randomUUID().toString());
-		conta.setValor(new BigDecimal("0.00"));
-		
-		contas.save(conta);
-		
-		return new ResponseEntity(contas.findAll(), HttpStatus.CREATED);
+	public ResponseEntity<Conta> criarConta(@RequestBody Conta conta){		
+		return new ResponseEntity(contaService.criarConta(conta), HttpStatus.CREATED);
 	}
 
 	@PutMapping(value="depositar/{uuid}")
 	public ResponseEntity<Conta> depositarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
-		Conta c = contas.findById(uuid).get();
 		
-		if(valor.doubleValue() > 0 && valor.doubleValue() <= 5000) {
-			c.setValor(c.getValor().add(valor));
-			contas.save(c);
-			
-			return new ResponseEntity<Conta>(c, HttpStatus.OK);
-		}else return new ResponseEntity<Conta>(HttpStatus.BAD_REQUEST);
+		// Considerar: Verificação do UUID, status HTTP  caso não encontre NO_CONTENT
+		// Considerar: Verificar se o valor é válido ( valor > 0 && valor <= 5000)
+		
+		return new ResponseEntity<>(contaService.depositarDinheiro(uuid, valor), HttpStatus.OK);
 	}
 	
 	@PutMapping(value="sacar/{uuid}")
 	public ResponseEntity<Conta> sacarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
+
+		// Considerar: Verificação do UUID, status HTTP  caso não encontre NO_CONTENT
+		// Considerar: Verificar se o valor é válido ( valor > 0 && valor <= conta.valor)
 		
-		DecimalFormat df = new DecimalFormat("0.00");
-		
-		Conta c = contas.findById(uuid).get();
-		
-		
-		if(valor.doubleValue() > 0 && valor.doubleValue() <= c.getValor().doubleValue()) {
-			c.setValor(c.getValor().subtract(valor));
-			contas.save(c);
-			
-			return new ResponseEntity<Conta>(c, HttpStatus.OK);
-		}else return new ResponseEntity<Conta>(HttpStatus.BAD_REQUEST);	
+		return new ResponseEntity<>(contaService.sacarDinheiro(uuid, valor), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value="/{uuid}")
-	public ResponseEntity<String> deletarConta(@PathVariable String uuid){
+	public ResponseEntity<Object> deletarConta(@PathVariable String uuid){
 		
-		if(contas.findById(uuid).get().getValor().doubleValue() == 0){
-			contas.deleteById(uuid);
-			return new ResponseEntity<String>("Deletado com sucesso", HttpStatus.OK);
-		}else return new ResponseEntity<String>("Você não pode deletar essa conta, pois ainda tem dinheiro para sacar", HttpStatus.BAD_REQUEST);
-			
+		//Considerar: Verificação do UUID, status HTTP  caso não encontre BAD_REQUEST
+		
+		contaService.deletarConta(uuid);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);		
+	}
+	
+	//Teste
+	
+	@GetMapping(value="/teste")
+	public ResponseEntity<Conta> teste(){
+		throw new RuntimeException("Teste de erro");
 	}
 	
 }
