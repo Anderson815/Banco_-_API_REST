@@ -29,9 +29,6 @@ public class ContaController {
 	
 	@GetMapping(value="/{uuid}")
 	public ResponseEntity<Conta> getConta(@PathVariable String uuid){		
-		
-		//Considerar: Verificação do UUID, status HTTP  caso não encontre NO_CONTENT
-		
 		return new ResponseEntity<>(contaService.getConta(uuid), HttpStatus.OK);
 	}
 		
@@ -47,36 +44,18 @@ public class ContaController {
 
 	@PutMapping(value="depositar/{uuid}")
 	public ResponseEntity<Conta> depositarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
-		
-		// Considerar: Verificação do UUID, status HTTP  caso não encontre NO_CONTENT
-		// Considerar: Verificar se o valor é válido ( valor > 0 && valor <= 5000)
-		
 		return new ResponseEntity<>(contaService.depositarDinheiro(uuid, valor), HttpStatus.OK);
 	}
 	
 	@PutMapping(value="sacar/{uuid}")
 	public ResponseEntity<Conta> sacarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
-
-		// Considerar: Verificação do UUID, status HTTP  caso não encontre NO_CONTENT
-		// Considerar: Verificar se o valor é válido ( valor > 0 && valor <= conta.valor)
-		
 		return new ResponseEntity<>(contaService.sacarDinheiro(uuid, valor), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value="/{uuid}")
 	public ResponseEntity<Object> deletarConta(@PathVariable String uuid){
-		
-		//Considerar: Verificação do UUID, status HTTP  caso não encontre BAD_REQUEST
-		
 		contaService.deletarConta(uuid);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);		
-	}
-	
-	//Teste
-	
-	@GetMapping(value="/teste")
-	public ResponseEntity<Conta> teste(){
-		throw new RuntimeException("Teste de erro");
 	}
 	
 }
