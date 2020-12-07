@@ -41,10 +41,12 @@ public class ContaService {
 		this.verificarUuid(uuid);
 		
 		Conta c = contas.findById(uuid).get();
-		if(valor.doubleValue() > 0 && valor.doubleValue() <= 5000.00) {
-			c.setValor(c.getValor().add(valor));
-			contas.save(c);
-		}else throw new InvalidValueException("Valor inválido para depositar");
+		if(valor.doubleValue() > 0) {
+			if(valor.doubleValue() <= 5000.00) {
+				c.setValor(c.getValor().add(valor));
+				contas.save(c);
+			}else throw new InvalidValueException("depositar: valor acima de R$ 5000,00");
+		}else throw new InvalidValueException("depositar: valor abaixo de R$ 0,01");
 		
 		return c;	
 	}
@@ -53,10 +55,12 @@ public class ContaService {
 		this.verificarUuid(uuid);
 		
 		Conta c = contas.findById(uuid).get();		
-		if(valor.doubleValue() > 0 && valor.doubleValue() <= c.getValor().doubleValue()) {
-			c.setValor(c.getValor().subtract(valor));
-			contas.save(c);
-		}else throw new InvalidValueException("Valor inválido para sacar");
+		if(valor.doubleValue() > 0) {
+			if(valor.doubleValue() <= c.getValor().doubleValue()) {
+				c.setValor(c.getValor().subtract(valor));
+				contas.save(c);
+			}else throw new InvalidValueException("sacar: valor de saque acima do valor máximo da conta");
+		}else throw new InvalidValueException("sacar: valor abaixo de R$ 0,01");
 		
 		return c;
 	}
