@@ -1,15 +1,13 @@
 package com.anderson.banco.model;
 
 import java.math.BigDecimal;
-import java.util.UUID;
+import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import javax.persistence.Column;
-import com.sun.istack.NotNull;
+import javax.persistence.OneToMany;
 
 //Anotação Entity é para informar que essa classe é uma entidade no BD
 
@@ -32,7 +30,10 @@ public class Conta{
 	private String nome;
 	@Column(nullable = false, unique = true)
 	private String rg;
-	
+
+	//relacionamento um para muito com a entidade Compra
+	@OneToMany
+	private List<Compra> compras;
 	
 	
 	public String getId() {
@@ -59,6 +60,12 @@ public class Conta{
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
-	
-	
+
+	public List<Compra> getCompras() {
+		return compras;
+	}
+
+	public void setCompras(List<Compra> compras) {
+		this.compras = compras;
+	}
 }

@@ -1,10 +1,6 @@
 package com.anderson.banco.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,7 +9,7 @@ import java.util.Date;
 public class Compra {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false, length = 50)
@@ -22,6 +18,10 @@ public class Compra {
     private BigDecimal valor;
     @Column(nullable = false)
     private Date data;
+
+    //Relacionamento muito para um com a entidade Conta
+    @ManyToOne
+    private Conta conta;
 
     public int getId() {
         return id;
@@ -53,5 +53,13 @@ public class Compra {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public Conta getConta() {
+        return conta;
+    }
+
+    public void setConta(Conta conta) {
+        this.conta = conta;
     }
 }
