@@ -1,35 +1,26 @@
 package com.anderson.banco.model;
 
 import javax.persistence.*;
-
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-public class Compra {
+public class CompraModelRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(nullable = false, length = 50)
+    @NotBlank(message = "O nome é obrigatório")
+    @Min(value = 5, message = "É necessário um nome de pelo menos 5 caracteres")
     private String titulo;
-    @Column(nullable = false)
+    @NotNull(message = "O valor não foi informado")
     private BigDecimal valor;
-    @Column(nullable = false)
+    @NotNull(message = "A data não foi informada")
     private Date data;
 
     //Relacionamento muito para um com a entidade Conta
     @ManyToOne
-    private Conta conta;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private ContaModelResponse contaModelResponse;
 
     public String getTitulo() {
         return titulo;
@@ -55,11 +46,11 @@ public class Compra {
         this.data = data;
     }
 
-    public Conta getConta() {
-        return conta;
+    public ContaModelResponse getConta() {
+        return contaModelResponse;
     }
 
-    public void setConta(Conta conta) {
-        this.conta = conta;
+    public void setConta(ContaModelResponse contaModelResponse) {
+        this.contaModelResponse = contaModelResponse;
     }
 }

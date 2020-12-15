@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 //Anotação Entity é para informar que essa classe é uma entidade no BD
 
 @Entity
-public class Conta{
+public class ContaModelResponse {
 	
 	//Anotação ID é para informar que esse atributo é a PK do BD
 	
@@ -33,7 +33,7 @@ public class Conta{
 
 	//relacionamento um para muito com a entidade Compra
 	@OneToMany
-	private List<Compra> compras;
+	private List<CompraModelResponse> compraModelResponses;
 	
 	
 	public String getId() {
@@ -61,11 +61,11 @@ public class Conta{
 		this.valor = valor;
 	}
 
-	public List<Compra> getCompras() {
-		return compras;
+	public List<CompraModelResponse> getCompras() {
+		return compraModelResponses;
 	}
 
-	public void setCompras(List<Compra> compras) {
-		this.compras = compras;
+	public void setCompras(List<CompraModelResponse> compraModelResponses) {
+		this.compraModelResponses = compraModelResponses;
 	}
 }
