@@ -26,7 +26,6 @@ public class ContaService {
 	@Autowired
 	CompraRepository compraRepository;
 
-
 	public ContaModelResponse getConta(String uuid) {
 		this.verificarUuid(uuid);
 		return contaRepository.findById(uuid).get();
@@ -41,7 +40,6 @@ public class ContaService {
 		contaModelResponse.setValor(new BigDecimal("0.00"));
 		
 		contaRepository.save(contaModelResponse);
-		
 		return contaModelResponse;
 	}
 	
@@ -79,23 +77,21 @@ public class ContaService {
 		else throw new DeleteAccountException();
 	}
 
+	//sub-recurso Compra
 
 	public CompraModelResponse criarCompra(String uuid, CompraModelRequest compraRequest){
 		this.verificarUuid(uuid);
-		ContaModelResponse conta = contaRepository.getOne(uuid);
+		ContaModelResponse conta = contaRepository.findById(uuid).get();
 
 		CompraModelResponse compraResponse = new CompraModelResponse();
-		compraResponse.setData(compraRequest.getData());
 		compraResponse.setTitulo(compraRequest.getTitulo());
 		compraResponse.setValor(compraRequest.getValor());
 		compraResponse.setConta(conta);
 
-
+		compraRepository.save(compraResponse);
 
 		return compraResponse;
 	}
-
-
 
 	//Método auxiliar
 

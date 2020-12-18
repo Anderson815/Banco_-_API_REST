@@ -1,5 +1,8 @@
 package com.anderson.banco.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 import java.math.BigDecimal;
@@ -8,16 +11,17 @@ import java.util.Date;
 @Entity
 public class CompraModelResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id //Identifica como o PK da entidade Compra
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //Gera a chave primaria de forma automática
     private int id;
     private String titulo;
     private BigDecimal valor;
-    private Date data;
 
-    //Relacionamento muito para um com a entidade Conta
-    @ManyToOne
-    private ContaModelResponse contaModelResponse;
+
+    @ManyToOne //Relacionamento muito para um com a entidade Conta
+    @JoinColumn(name = "conta_id") //Nome do campo do campo FK na entidade Compra
+    @JsonIgnore //Não serializar essa propriedade. OBS: get e set tem que ter o mesmo nome do campo
+    private ContaModelResponse conta;
 
     public int getId() {
         return id;
@@ -43,19 +47,11 @@ public class CompraModelResponse {
         this.valor = valor;
     }
 
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
-    }
-
     public ContaModelResponse getConta() {
-        return contaModelResponse;
+        return conta;
     }
 
     public void setConta(ContaModelResponse contaModelResponse) {
-        this.contaModelResponse = contaModelResponse;
+        this.conta = contaModelResponse;
     }
 }

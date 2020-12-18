@@ -14,9 +14,9 @@ import javax.persistence.OneToMany;
 @Entity
 public class ContaModelResponse {
 	
-	//Anotação ID é para informar que esse atributo é a PK do BD
+
 	
-	@Id
+	@Id //Anotação Id é para informar que esse atributo é a PK do BD
 	private String id;
 
 	@Column()
@@ -31,9 +31,9 @@ public class ContaModelResponse {
 	@Column(nullable = false, unique = true)
 	private String rg;
 
-	//relacionamento um para muito com a entidade Compra
-	@OneToMany
-	private List<CompraModelResponse> compraModelResponses;
+
+	@OneToMany(mappedBy = "conta") //relacionamento um para muito com a entidade Compra. Atibuto mappedBy indica que esse campo será a REFERENCIA para o FK especificada, nesse caso "conta"
+	private List<CompraModelResponse> compras;
 	
 	
 	public String getId() {
@@ -62,10 +62,10 @@ public class ContaModelResponse {
 	}
 
 	public List<CompraModelResponse> getCompras() {
-		return compraModelResponses;
+		return compras;
 	}
 
 	public void setCompras(List<CompraModelResponse> compraModelResponses) {
-		this.compraModelResponses = compraModelResponses;
+		this.compras = compraModelResponses;
 	}
 }

@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Entity
+
 public class CompraModelRequest {
 
     @NotBlank(message = "O nome é obrigatório")
@@ -15,11 +15,7 @@ public class CompraModelRequest {
     private String titulo;
     @NotNull(message = "O valor não foi informado")
     private BigDecimal valor;
-    @NotNull(message = "A data não foi informada")
-    private Date data;
 
-    //Relacionamento muito para um com a entidade Conta
-    @ManyToOne
     private ContaModelResponse contaModelResponse;
 
     public String getTitulo() {
@@ -36,14 +32,6 @@ public class CompraModelRequest {
 
     public void setValor(BigDecimal valor) {
         this.valor = valor;
-    }
-
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
     }
 
     public ContaModelResponse getConta() {
