@@ -67,4 +67,14 @@ public class ContaController {
 	public ResponseEntity<CompraModelResponse> criarCompra(@PathVariable String uuid, @Valid @RequestBody CompraModelRequest compraModelRequest){
 		return new ResponseEntity<>(contaService.criarCompra(uuid, compraModelRequest), HttpStatus.CREATED);
 	}
+
+	@GetMapping(value = "/{uuid}/compra")
+	public ResponseEntity<List<CompraModelResponse>> getCompras(@PathVariable String uuid){
+		return new ResponseEntity<>(contaService.getCompras(uuid), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/{uuid}/compra/{id_compra}")
+	public ResponseEntity<CompraModelResponse> getCompra(@PathVariable(value = "uuid") String uuid, @PathVariable(value = "id_compra") int id_compra){
+		return new ResponseEntity<>(contaService.getCompra(uuid, id_compra), HttpStatus.OK);
+	}
 }

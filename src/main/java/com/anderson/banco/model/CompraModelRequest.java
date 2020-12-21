@@ -16,7 +16,6 @@ public class CompraModelRequest {
     @NotNull(message = "O valor não foi informado")
     private BigDecimal valor;
 
-    private ContaModelResponse contaModelResponse;
 
     public String getTitulo() {
         return titulo;
@@ -34,11 +33,5 @@ public class CompraModelRequest {
         this.valor = valor;
     }
 
-    public ContaModelResponse getConta() {
-        return contaModelResponse;
-    }
 
-    public void setConta(ContaModelResponse contaModelResponse) {
-        this.contaModelResponse = contaModelResponse;
-    }
 }

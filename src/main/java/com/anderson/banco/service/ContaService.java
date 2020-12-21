@@ -93,11 +93,34 @@ public class ContaService {
 		return compraResponse;
 	}
 
+	public List<CompraModelResponse> getCompras(String uuid){
+		this.verificarUuid(uuid);
+		ContaModelResponse conta = contaRepository.findById(uuid).get();
+
+		return conta.getCompras();
+	}
+
+	public CompraModelResponse getCompra(String uuid, int id_compra){
+		this.verificarUuid(uuid);
+		this.verificarIdCompra(uuid, id_compra);
+
+		return compraRepository.findById(id_compra).get();
+	}
+	
 	//Método auxiliar
 
 	private void verificarUuid(String uuid){
 		if(!contaRepository.existsById(uuid)){
-			throw new NotFoundException(uuid); 
+			throw new NotFoundException("conta: " + uuid);
+		}
+	}
+
+	private void verificarIdCompra(String uuid, int id_compra){
+		if(compraRepository.existsById(id_compra)){
+			CompraModelResponse compra = compraRepository.findById(id_compra).get();
+			if(!compra.getConta().getId().equals(uuid)) throw new NotFoundException("compra: " + Integer.toString(id_compra));
+		}else{
+			throw new NotFoundException("compra: " + Integer.toString(id_compra));
 		}
 	}
 }
