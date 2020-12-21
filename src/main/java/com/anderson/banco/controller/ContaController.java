@@ -5,6 +5,9 @@ import java.math.BigDecimal;
 
 import com.anderson.banco.model.CompraModelRequest;
 import com.anderson.banco.model.CompraModelResponse;
+import com.anderson.banco.model.ContaModelResponse;
+import com.anderson.banco.service.ContaService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.anderson.banco.model.ContaModelResponse;
-import com.anderson.banco.service.ContaService;
 
 import javax.validation.Valid;
 
@@ -64,7 +64,7 @@ public class ContaController {
 	//sub recurso
 
 	@PostMapping(value = "/{uuid}/compra")
-	public ResponseEntity<CompraModelResponse> criarCompra(@PathVariable String uuid, @Valid @RequestBody CompraModelRequest compraModelRequest){
+	public ResponseEntity<CompraModelResponse> criarCompra(@PathVariable String uuid, @RequestBody @Valid CompraModelRequest compraModelRequest){
 		return new ResponseEntity<>(contaService.criarCompra(uuid, compraModelRequest), HttpStatus.CREATED);
 	}
 

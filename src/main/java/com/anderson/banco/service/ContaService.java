@@ -88,6 +88,12 @@ public class ContaService {
 		compraResponse.setValor(compraRequest.getValor());
 		compraResponse.setConta(conta);
 
+		if(compraResponse.getValor().doubleValue() > conta.getValor().doubleValue()) throw new InvalidValueException("comprar: a conta não possui esse dinheiro");
+		else{
+			conta.setValor(conta.getValor().subtract(compraResponse.getValor()));
+			contaRepository.save(conta);
+		}
+
 		compraRepository.save(compraResponse);
 
 		return compraResponse;

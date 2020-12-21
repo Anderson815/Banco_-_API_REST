@@ -1,19 +1,19 @@
 package com.anderson.banco.model;
 
+import jdk.nashorn.internal.objects.annotations.Getter;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Date;
 
 
 public class CompraModelRequest {
 
-    @NotBlank(message = "O nome é obrigatório")
-    @Min(value = 5, message = "É necessário um nome de pelo menos 5 caracteres")
+    @NotBlank(message = "O nome está vazio")
     private String titulo;
-    @NotNull(message = "O valor não foi informado")
+    @NotBlank(message = "O valor não foi informado")
     private BigDecimal valor;
 
 

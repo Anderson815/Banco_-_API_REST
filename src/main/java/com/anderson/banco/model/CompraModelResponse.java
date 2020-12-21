@@ -1,12 +1,12 @@
 package com.anderson.banco.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Entity
 public class CompraModelResponse {
