@@ -3,6 +3,7 @@ package com.anderson.banco.controller;
 import java.util.List;
 import java.math.BigDecimal;
 
+import com.anderson.banco.exceptions.RequestConstraintException;
 import com.anderson.banco.model.CompraModelRequest;
 import com.anderson.banco.model.CompraModelResponse;
 import com.anderson.banco.model.ContaModelResponse;
@@ -11,6 +12,7 @@ import com.anderson.banco.service.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,7 +66,8 @@ public class ContaController {
 	//sub recurso
 
 	@PostMapping(value = "/{uuid}/compra")
-	public ResponseEntity<CompraModelResponse> criarCompra(@PathVariable String uuid, @RequestBody @Valid CompraModelRequest compraModelRequest){
+	public ResponseEntity<CompraModelResponse> criarCompra(@PathVariable String uuid, @Valid @RequestBody CompraModelRequest compraModelRequest, BindingResult erroRequest){
+		if(erroRequest.hasErrors()) throw new RequestConstraintException(erroRequest.getAllErrors().get(0).getDefaultMessage());
 		return new ResponseEntity<>(contaService.criarCompra(uuid, compraModelRequest), HttpStatus.CREATED);
 	}
 

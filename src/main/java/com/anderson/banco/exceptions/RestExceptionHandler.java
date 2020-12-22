@@ -41,4 +41,10 @@ public class RestExceptionHandler {
 		ResponseExceptionDetails erro = new ResponseExceptionDetails(new Date(), HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.name(), "Algum campo obrigatório não foi preenchido");
 		return new ResponseEntity<>(erro, HttpStatus.BAD_REQUEST);
 	}
+
+	@ExceptionHandler(RequestConstraintException.class)
+	public ResponseEntity<ResponseExceptionDetails> responseRequestConstraintException(RequestConstraintException e){
+		ResponseExceptionDetails erro = new ResponseExceptionDetails(new Date(), HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.name(), e.getMessage());
+		return new ResponseEntity<>(erro, HttpStatus.BAD_REQUEST);
+	}
 }
