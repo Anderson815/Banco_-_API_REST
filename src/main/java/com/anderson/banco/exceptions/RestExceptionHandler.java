@@ -26,8 +26,8 @@ public class RestExceptionHandler {
 
 	@ExceptionHandler(DeleteAccountException.class)
 	public ResponseEntity<ResponseExceptionDetails> responseDeleteAccountException(DeleteAccountException e){
-		ResponseExceptionDetails erro = new ResponseExceptionDetails(new Date(), HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
-		return new ResponseEntity<>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+		ResponseExceptionDetails erro = new ResponseExceptionDetails(new Date(), HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.name(), e.getMessage());
+		return new ResponseEntity<>(erro, HttpStatus.BAD_REQUEST);
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
