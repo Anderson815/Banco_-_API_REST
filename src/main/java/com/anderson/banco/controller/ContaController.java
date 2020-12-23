@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import com.anderson.banco.exceptions.RequestConstraintException;
 import com.anderson.banco.model.CompraModelRequest;
 import com.anderson.banco.model.CompraModelResponse;
+import com.anderson.banco.model.ContaModelRequest;
 import com.anderson.banco.model.ContaModelResponse;
 import com.anderson.banco.service.ContaService;
 
@@ -43,8 +44,9 @@ public class ContaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ContaModelResponse> criarConta(@RequestBody ContaModelResponse contaModelResponse){
-		return new ResponseEntity(contaService.criarConta(contaModelResponse), HttpStatus.CREATED);
+	public ResponseEntity<ContaModelResponse> criarConta(@Valid @RequestBody ContaModelRequest contaModelRequest, BindingResult erroRequest){
+		if(erroRequest.hasErrors()) throw new RequestConstraintException(erroRequest.getAllErrors().get(0).getDefaultMessage());
+		return new ResponseEntity(contaService.criarConta(contaModelRequest), HttpStatus.CREATED);
 	}
 
 	@PutMapping(value="depositar/{uuid}")

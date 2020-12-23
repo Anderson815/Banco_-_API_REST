@@ -7,4 +7,5 @@ import com.anderson.banco.model.ContaModelResponse;
 
 @Repository
 public interface ContaRepository extends JpaRepository<ContaModelResponse, String>{
+    public boolean existsByRg (String rg); //verifica a existencia do Rg informado
 }

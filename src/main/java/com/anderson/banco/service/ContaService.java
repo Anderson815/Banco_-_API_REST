@@ -3,8 +3,10 @@ package com.anderson.banco.service;
 import com.anderson.banco.exceptions.DeleteAccountException;
 import com.anderson.banco.exceptions.InvalidValueException;
 import com.anderson.banco.exceptions.NotFoundException;
+import com.anderson.banco.exceptions.RequestConstraintException;
 import com.anderson.banco.model.CompraModelRequest;
 import com.anderson.banco.model.CompraModelResponse;
+import com.anderson.banco.model.ContaModelRequest;
 import com.anderson.banco.model.ContaModelResponse;
 import com.anderson.banco.repository.ContaRepository;
 import com.anderson.banco.repository.CompraRepository;
@@ -22,7 +24,6 @@ public class ContaService {
 	@Autowired
 	ContaRepository contaRepository;
 
-
 	@Autowired
 	CompraRepository compraRepository;
 
@@ -35,40 +36,46 @@ public class ContaService {
 		return contaRepository.findAll();
 	}
 	
-	public ContaModelResponse criarConta(ContaModelResponse contaModelResponse) {
-		contaModelResponse.setId(UUID.randomUUID().toString());
-		contaModelResponse.setValor(new BigDecimal("0.00"));
+	public ContaModelResponse criarConta(ContaModelRequest contaRequest) {
+
+		if(contaRepository.existsByRg(contaRequest.getRg())) throw new RequestConstraintException("Rg já cadastrado");
+
+		ContaModelResponse contaResponse = new ContaModelResponse();
+		contaResponse.setId(UUID.randomUUID().toString());
+		contaResponse.setValor(new BigDecimal("0.00"));
+		contaResponse.setNome(contaRequest.getNome());
+		contaResponse.setRg(contaRequest.getRg());
 		
-		contaRepository.save(contaModelResponse);
-		return contaModelResponse;
+		contaRepository.save(contaResponse);
+		return contaResponse;
 	}
 	
 	public ContaModelResponse depositarDinheiro(String uuid, BigDecimal valor) {
 		this.verificarUuid(uuid);
 		
-		ContaModelResponse c = contaRepository.findById(uuid).get();
+		ContaModelResponse conta = contaRepository.findById(uuid).get();
 		if(valor.doubleValue() > 0) {
 			if(valor.doubleValue() <= LIMITE_MAX_DE_DEPOSITO) {
-				c.setValor(c.getValor().add(valor));
-				contaRepository.save(c);
+				conta.setValor(conta.getValor().add(valor));
+				contaRepository.save(conta);
 			}else throw new InvalidValueException("depositar: valor acima de R$ 5000,00");
 		}else throw new InvalidValueException("depositar: valor abaixo de R$ 0,01");
 		
-		return c;	
+		return conta;	
 	}
 	
 	public ContaModelResponse sacarDinheiro(String uuid, BigDecimal valor) {
 		this.verificarUuid(uuid);
 		
-		ContaModelResponse c = contaRepository.findById(uuid).get();
+		ContaModelResponse conta = contaRepository.findById(uuid).get();
 		if(valor.doubleValue() > 0) {
-			if(valor.doubleValue() <= c.getValor().doubleValue()) {
-				c.setValor(c.getValor().subtract(valor));
-				contaRepository.save(c);
+			if(valor.doubleValue() <= conta.getValor().doubleValue()) {
+				conta.setValor(conta.getValor().subtract(valor));
+				contaRepository.save(conta);
 			}else throw new InvalidValueException("sacar: valor de saque acima do valor depositado na conta");
 		}else throw new InvalidValueException("sacar: valor abaixo de R$ 0,01");
 		
-		return c;
+		return conta;
 	}
 
 	public void deletarConta(String uuid){	
@@ -94,7 +101,6 @@ public class ContaService {
 			conta.setValor(conta.getValor().subtract(compraResponse.getValor()));
 			contaRepository.save(conta);
 		}
-
 
 		compraRepository.save(compraResponse);
 

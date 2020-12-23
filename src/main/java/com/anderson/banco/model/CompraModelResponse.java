@@ -3,8 +3,6 @@ package com.anderson.banco.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
