@@ -1,4 +1,4 @@
-package com.anderson.banco.model;
+package com.anderson.banco.model.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

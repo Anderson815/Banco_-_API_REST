@@ -1,4 +1,4 @@
-package com.anderson.banco.model;
+package com.anderson.banco.model.response;
 
 import java.math.BigDecimal;
 import java.util.List;

@@ -4,10 +4,10 @@ import java.util.List;
 import java.math.BigDecimal;
 
 import com.anderson.banco.exceptions.RequestConstraintException;
-import com.anderson.banco.model.CompraModelRequest;
-import com.anderson.banco.model.CompraModelResponse;
-import com.anderson.banco.model.ContaModelRequest;
-import com.anderson.banco.model.ContaModelResponse;
+import com.anderson.banco.model.request.CompraModelRequest;
+import com.anderson.banco.model.response.CompraModelResponse;
+import com.anderson.banco.model.request.ContaModelRequest;
+import com.anderson.banco.model.response.ContaModelResponse;
 import com.anderson.banco.service.ContaService;
 
 import org.springframework.beans.factory.annotation.Autowired;

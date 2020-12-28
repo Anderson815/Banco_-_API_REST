@@ -1,4 +1,4 @@
-package com.anderson.banco.model;
+package com.anderson.banco.model.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

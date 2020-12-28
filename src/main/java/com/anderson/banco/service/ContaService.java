@@ -4,10 +4,10 @@ import com.anderson.banco.exceptions.DeleteAccountException;
 import com.anderson.banco.exceptions.InvalidValueException;
 import com.anderson.banco.exceptions.NotFoundException;
 import com.anderson.banco.exceptions.RequestConstraintException;
-import com.anderson.banco.model.CompraModelRequest;
-import com.anderson.banco.model.CompraModelResponse;
-import com.anderson.banco.model.ContaModelRequest;
-import com.anderson.banco.model.ContaModelResponse;
+import com.anderson.banco.model.request.CompraModelRequest;
+import com.anderson.banco.model.response.CompraModelResponse;
+import com.anderson.banco.model.request.ContaModelRequest;
+import com.anderson.banco.model.response.ContaModelResponse;
 import com.anderson.banco.repository.ContaRepository;
 import com.anderson.banco.repository.CompraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +95,6 @@ public class ContaService {
 		compraResponse.setValor(compraRequest.getValor());
 		compraResponse.setConta(conta);
 
-
 		if(compraResponse.getValor().doubleValue() > conta.getValor().doubleValue()) throw new InvalidValueException("comprar: a conta não possui esse dinheiro");
 		else{
 			conta.setValor(conta.getValor().subtract(compraResponse.getValor()));
@@ -110,6 +109,8 @@ public class ContaService {
 	public List<CompraModelResponse> getCompras(String uuid){
 		this.verificarUuid(uuid);
 		ContaModelResponse conta = contaRepository.findById(uuid).get();
+
+
 
 		return conta.getCompras();
 	}
