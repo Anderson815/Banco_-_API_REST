@@ -40,21 +40,21 @@ public class ContaController {
 		
 	@GetMapping
 	public ResponseEntity<List<ContaModelResponse>> getContas(){
-		return new ResponseEntity(contaService.getContas(), HttpStatus.OK);
+		return new ResponseEntity<>(contaService.getContas(), HttpStatus.OK);
 	}
 	
 	@PostMapping
 	public ResponseEntity<ContaModelResponse> criarConta(@Valid @RequestBody ContaModelRequest contaModelRequest, BindingResult erroRequest){
 		if(erroRequest.hasErrors()) throw new RequestConstraintException(erroRequest.getAllErrors().get(0).getDefaultMessage());
-		return new ResponseEntity(contaService.criarConta(contaModelRequest), HttpStatus.CREATED);
+		return new ResponseEntity<>(contaService.criarConta(contaModelRequest), HttpStatus.CREATED);
 	}
 
-	@PutMapping(value="depositar/{uuid}")
+	@PutMapping(value="/{uuid}/deposito")
 	public ResponseEntity<ContaModelResponse> depositarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
 		return new ResponseEntity<>(contaService.depositarDinheiro(uuid, valor), HttpStatus.OK);
 	}
 	
-	@PutMapping(value="sacar/{uuid}")
+	@PutMapping(value="/{uuid}/saque")
 	public ResponseEntity<ContaModelResponse> sacarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
 		return new ResponseEntity<>(contaService.sacarDinheiro(uuid, valor), HttpStatus.OK);
 	}
