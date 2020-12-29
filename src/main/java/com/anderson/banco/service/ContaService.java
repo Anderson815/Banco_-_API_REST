@@ -28,8 +28,7 @@ public class ContaService {
 	CompraRepository compraRepository;
 
 	public ContaModelResponse getConta(String uuid) {
-		this.verificarUuid(uuid);
-		return contaRepository.findById(uuid).get();
+		return this.obterConta(uuid);
 	}
 	
 	public List<ContaModelResponse> getContas(){
@@ -37,7 +36,6 @@ public class ContaService {
 	}
 	
 	public ContaModelResponse criarConta(ContaModelRequest contaRequest) {
-
 		if(contaRepository.existsByRg(contaRequest.getRg())) throw new RequestConstraintException("Rg já cadastrado");
 
 		ContaModelResponse contaResponse = new ContaModelResponse();
@@ -51,9 +49,7 @@ public class ContaService {
 	}
 	
 	public ContaModelResponse depositarDinheiro(String uuid, BigDecimal valor) {
-		this.verificarUuid(uuid);
-		
-		ContaModelResponse conta = contaRepository.findById(uuid).get();
+		ContaModelResponse conta = this.obterConta(uuid);
 		if(valor.doubleValue() > 0) {
 			if(valor.doubleValue() <= LIMITE_MAX_DE_DEPOSITO) {
 				conta.setValor(conta.getValor().add(valor));
@@ -65,9 +61,7 @@ public class ContaService {
 	}
 	
 	public ContaModelResponse sacarDinheiro(String uuid, BigDecimal valor) {
-		this.verificarUuid(uuid);
-		
-		ContaModelResponse conta = contaRepository.findById(uuid).get();
+		ContaModelResponse conta = this.obterConta(uuid);
 		if(valor.doubleValue() > 0) {
 			if(valor.doubleValue() <= conta.getValor().doubleValue()) {
 				conta.setValor(conta.getValor().subtract(valor));
@@ -79,23 +73,22 @@ public class ContaService {
 	}
 
 	public void deletarConta(String uuid){	
-		this.verificarUuid(uuid);
-		if(contaRepository.findById(uuid).get().getValor().doubleValue() == 0) contaRepository.deleteById(uuid);
+		ContaModelResponse conta = this.obterConta(uuid);
+		if(conta.getValor().doubleValue() == 0) contaRepository.deleteById(uuid);
 		else throw new DeleteAccountException();
 	}
 
 	//sub-recurso Compra
 
 	public CompraModelResponse criarCompra(String uuid, CompraModelRequest compraRequest){
-		this.verificarUuid(uuid);
-		ContaModelResponse conta = contaRepository.findById(uuid).get();
+		ContaModelResponse conta = this.obterConta(uuid);
 
 		CompraModelResponse compraResponse = new CompraModelResponse();
 		compraResponse.setTitulo(compraRequest.getTitulo());
 		compraResponse.setValor(compraRequest.getValor());
 		compraResponse.setConta(conta);
 
-		if(compraResponse.getValor().doubleValue() > conta.getValor().doubleValue()) throw new InvalidValueException("comprar: a conta não possui esse dinheiro");
+		if(compraResponse.getValor().doubleValue() > conta.getValor().doubleValue()) throw new InvalidValueException("comprar: valor insuficiente na conta");
 		else{
 			conta.setValor(conta.getValor().subtract(compraResponse.getValor()));
 			contaRepository.save(conta);
@@ -107,33 +100,23 @@ public class ContaService {
 	}
 
 	public List<CompraModelResponse> getCompras(String uuid){
-		this.verificarUuid(uuid);
-		ContaModelResponse conta = contaRepository.findById(uuid).get();
-
+		ContaModelResponse conta = this.obterConta(uuid);
 		return conta.getCompras();
 	}
 
 	public CompraModelResponse getCompra(String uuid, int id_compra){
-		this.verificarUuid(uuid);
-		this.verificarIdCompra(uuid, id_compra);
+		ContaModelResponse conta = this.obterConta(uuid);
+		CompraModelResponse compra = compraRepository.findById(id_compra).orElseThrow(() -> new NotFoundException("compra: " + id_compra));
 
-		return compraRepository.findById(id_compra).get();
+		if (conta != compra.getConta()) throw new NotFoundException("compra: " + id_compra);
+
+		return compra;
 	}
 	
 	//Método auxiliar
 
-	private void verificarUuid(String uuid){
-		if(!contaRepository.existsById(uuid)){
-			throw new NotFoundException("conta: " + uuid);
-		}
+    private ContaModelResponse obterConta(String uuid){
+		return contaRepository.findById(uuid).orElseThrow(() -> new NotFoundException("conta: " + uuid));
 	}
 
-	private void verificarIdCompra(String uuid, int id_compra){
-		if(compraRepository.existsById(id_compra)){
-			CompraModelResponse compra = compraRepository.findById(id_compra).get();
-			if(!compra.getConta().getId().equals(uuid)) throw new NotFoundException("compra: " + Integer.toString(id_compra));
-		}else{
-			throw new NotFoundException("compra: " + Integer.toString(id_compra));
-		}
-	}
 }
