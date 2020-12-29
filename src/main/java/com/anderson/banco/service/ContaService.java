@@ -17,14 +17,14 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-@Service
+@Service //Transforma a interface em um Bean para o Spring
 public class ContaService {
 
 	public static final double LIMITE_MAX_DE_DEPOSITO = 5000.00;
-	@Autowired
+	@Autowired //é para gerenciar a dependência, só possível para classes Beans do Spring
 	ContaRepository contaRepository;
 
-	@Autowired
+	@Autowired //é para gerenciar a dependência, só possível para classes Beans do Spring
 	CompraRepository compraRepository;
 
 	public ContaModelResponse getConta(String uuid) {
@@ -109,8 +109,6 @@ public class ContaService {
 	public List<CompraModelResponse> getCompras(String uuid){
 		this.verificarUuid(uuid);
 		ContaModelResponse conta = contaRepository.findById(uuid).get();
-
-
 
 		return conta.getCompras();
 	}

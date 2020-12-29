@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 
 public class CompraModelRequest {
 
-    @NotBlank(message = "O título não foi informado")
+    @NotBlank(message = "O título não foi informado") //validação de nulo ou vazio (só para Strings)
     private String titulo;
-    @NotNull(message = "O valor não foi informado")
+    @NotNull(message = "O valor não foi informado") //validação de nulo (para objetos)
     private BigDecimal valor;
 
     public String getTitulo() {

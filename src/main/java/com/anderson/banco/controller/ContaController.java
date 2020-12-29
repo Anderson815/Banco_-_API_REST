@@ -26,11 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@RestController
+@RestController //Indica que será uma aplicação RESTful e retornara JSON
 @RequestMapping("/conta") // serve para mapear URLs para toda uma classe
 public class ContaController {
 		
-	@Autowired
+	@Autowired //é para gerenciar a dependência, só possível para classes Beans do Spring
 	ContaService contaService;
 	
 	@GetMapping(value="/{uuid}")
@@ -45,6 +45,7 @@ public class ContaController {
 	
 	@PostMapping
 	public ResponseEntity<ContaModelResponse> criarConta(@Valid @RequestBody ContaModelRequest contaModelRequest, BindingResult erroRequest){
+		//BindingResult é para a validação
 		if(erroRequest.hasErrors()) throw new RequestConstraintException(erroRequest.getAllErrors().get(0).getDefaultMessage());
 		return new ResponseEntity<>(contaService.criarConta(contaModelRequest), HttpStatus.CREATED);
 	}
