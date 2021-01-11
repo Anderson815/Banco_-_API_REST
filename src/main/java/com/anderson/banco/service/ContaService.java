@@ -10,6 +10,7 @@ import com.anderson.banco.model.request.ContaModelRequest;
 import com.anderson.banco.model.response.ContaModelResponse;
 import com.anderson.banco.repository.ContaRepository;
 import com.anderson.banco.repository.CompraRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +71,21 @@ public class ContaService {
 		}else throw new InvalidValueException("sacar: valor abaixo de R$ 0,01");
 		
 		return conta;
+	}
+
+	public ContaModelResponse tranferir(String uuidRetira, String uuidRecebe, BigDecimal valor){
+		ContaModelResponse contaRetira = this.obterConta(uuidRetira);
+		ContaModelResponse contaRecebe = this.obterConta(uuidRecebe);
+		if(valor.doubleValue() < 0.01) throw new InvalidValueException("tranferir: valor abaixo de R$ 0,01");
+		if(contaRetira.getValor().doubleValue() < valor.doubleValue()) throw new InvalidValueException("transferir: valor de transferência acima do valor depositado na conta");
+
+		contaRetira.setValor(contaRetira.getValor().subtract(valor));
+		contaRecebe.setValor(contaRecebe.getValor().add(valor));
+
+		contaRepository.save(contaRetira);
+		contaRepository.save(contaRecebe);
+
+		return contaRetira;
 	}
 
 	public void deletarConta(String uuid){	

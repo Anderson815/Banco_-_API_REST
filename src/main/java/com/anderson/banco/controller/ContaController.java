@@ -59,14 +59,19 @@ public class ContaController {
 	public ResponseEntity<ContaModelResponse> sacarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
 		return new ResponseEntity<>(contaService.sacarDinheiro(uuid, valor), HttpStatus.OK);
 	}
-	
+
+	@PutMapping(value="/{uuidRetira}/transferencia")
+	public ResponseEntity<ContaModelResponse> transferir(@PathVariable(value = "uuidRetira") String uuidRetira, @RequestParam(value = "uuidRecebe") String uuidRecebe, @RequestParam(value = "valor") BigDecimal valor){
+		return new ResponseEntity<>(contaService.tranferir(uuidRetira, uuidRecebe, valor), HttpStatus.OK);
+	}
+
 	@DeleteMapping(value="/{uuid}")
 	public ResponseEntity<Object> deletarConta(@PathVariable String uuid){
 		contaService.deletarConta(uuid);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);		
 	}
 
-	//sub recurso
+	//sub recurso compra
 
 	@PostMapping(value = "/{uuid}/compra")
 	public ResponseEntity<CompraModelResponse> criarCompra(@PathVariable String uuid, @Valid @RequestBody CompraModelRequest compraModelRequest, BindingResult erroRequest){
