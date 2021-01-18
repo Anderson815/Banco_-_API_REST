@@ -90,7 +90,14 @@ public class ContaService {
 
 	public void deletarConta(String uuid){	
 		ContaModelResponse conta = this.obterConta(uuid);
-		if(conta.getValor().doubleValue() == 0) contaRepository.deleteById(uuid);
+		if(conta.getValor().doubleValue() == 0) {
+			while(conta.getCompras().size() > 0){
+				CompraModelResponse compra = conta.getCompras().get(conta.getCompras().size() - 1);
+				compraRepository.deleteById(compra.getId());
+				conta.getCompras().remove(compra);
+			}
+			contaRepository.deleteById(uuid);
+		}
 		else throw new DeleteAccountException();
 	}
 
