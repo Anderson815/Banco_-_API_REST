@@ -15,7 +15,6 @@ public class ContaModelRequest {
     public String getNome() {
         return nome;
     }
-
     public String getRg() {
         return rg;
     }

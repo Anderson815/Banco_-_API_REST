@@ -37,12 +37,12 @@ public class ContaController {
 	public ResponseEntity<ContaModelResponse> getConta(@PathVariable String uuid){
 		return new ResponseEntity<>(contaService.getConta(uuid), HttpStatus.OK);
 	}
-		
+
 	@GetMapping
 	public ResponseEntity<List<ContaModelResponse>> getContas(){
 		return new ResponseEntity<>(contaService.getContas(), HttpStatus.OK);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<ContaModelResponse> criarConta(@Valid @RequestBody ContaModelRequest contaModelRequest, BindingResult erroRequest){
 		//BindingResult é para a validação
@@ -54,7 +54,7 @@ public class ContaController {
 	public ResponseEntity<ContaModelResponse> depositarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
 		return new ResponseEntity<>(contaService.depositarDinheiro(uuid, valor), HttpStatus.OK);
 	}
-	
+
 	@PutMapping(value="/{uuid}/saque")
 	public ResponseEntity<ContaModelResponse> sacarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
 		return new ResponseEntity<>(contaService.sacarDinheiro(uuid, valor), HttpStatus.OK);

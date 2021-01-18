@@ -16,7 +16,6 @@ public class CompraModelRequest {
     public String getTitulo() {
         return titulo;
     }
-
     public BigDecimal getValor() {
         return valor;
     }
