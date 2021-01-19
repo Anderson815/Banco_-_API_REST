@@ -131,14 +131,12 @@ public class ContaService {
 		compraDb.setValor(compraRequest.getValor().setScale(2, RoundingMode.DOWN));
 		compraDb.setConta(contaDb);
 
-		//Adicionar restrição de compra com valor negativo
-
+		if(compraDb.getValor().compareTo(new BigDecimal("0")) < 0) throw new InvalidValueException("comprar: valor negativo");
 		if(compraDb.getValor().compareTo(contaDb.getValor()) > 0) throw new InvalidValueException("comprar: valor insuficiente na conta");
-		else{
-			contaDb.setValor(contaDb.getValor().subtract(compraDb.getValor()));
-			contaRepository.save(contaDb);
-		}
 
+		contaDb.setValor(contaDb.getValor().subtract(compraDb.getValor()));
+
+		contaRepository.save(contaDb);
 		compraRepository.save(compraDb);
 
 		return this.compraParaResposta(compraDb);
