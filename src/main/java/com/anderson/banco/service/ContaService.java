@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -64,6 +65,8 @@ public class ContaService {
 	
 	public ContaModelResponse depositarDinheiro(String uuid, BigDecimal valor) {
 		ContaModelDb contaDb = this.obterConta(uuid);
+		valor = valor.setScale(2, RoundingMode.DOWN);
+
 		if(valor.doubleValue() > 0) {
 			if(valor.doubleValue() <= LIMITE_MAX_DE_DEPOSITO) {
 				contaDb.setValor(contaDb.getValor().add(valor));
@@ -76,6 +79,8 @@ public class ContaService {
 	
 	public ContaModelResponse sacarDinheiro(String uuid, BigDecimal valor) {
 		ContaModelDb contaDb = this.obterConta(uuid);
+		valor = valor.setScale(2, RoundingMode.DOWN);
+
 		if(valor.doubleValue() > 0) {
 			if(valor.doubleValue() <= contaDb.getValor().doubleValue()) {
 				contaDb.setValor(contaDb.getValor().subtract(valor));
@@ -89,6 +94,8 @@ public class ContaService {
 	public ContaModelResponse tranferir(String uuidRetira, String uuidRecebe, BigDecimal valor){
 		ContaModelDb contaDbRetira = this.obterConta(uuidRetira);
 		ContaModelDb contaDbRecebe = this.obterConta(uuidRecebe);
+		valor = valor.setScale(2, RoundingMode.DOWN);
+
 		if(valor.doubleValue() < 0.01) throw new InvalidValueException("tranferir: valor abaixo de R$ 0,01");
 		if(contaDbRetira.getValor().doubleValue() < valor.doubleValue()) throw new InvalidValueException("transferir: valor de transferência acima do valor depositado na conta");
 
@@ -121,7 +128,7 @@ public class ContaService {
 
 		CompraModelDb compraDb = new CompraModelDb();
 		compraDb.setTitulo(compraRequest.getTitulo());
-		compraDb.setValor(compraRequest.getValor());
+		compraDb.setValor(compraRequest.getValor().setScale(2, RoundingMode.DOWN));
 		compraDb.setConta(contaDb);
 
 		if(compraDb.getValor().doubleValue() > contaDb.getValor().doubleValue()) throw new InvalidValueException("comprar: valor insuficiente na conta");
