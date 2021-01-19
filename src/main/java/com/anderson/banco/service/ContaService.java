@@ -25,7 +25,7 @@ import java.util.UUID;
 @Service //Transforma a interface em um Bean para o Spring
 public class ContaService {
 
-	public static final double LIMITE_MAX_DE_DEPOSITO = 5000.00;
+	public static final String LIMITE_MAX_DE_DEPOSITO = "5000.00";
 	@Autowired //é para gerenciar a dependência, só possível para classes Beans do Spring
 	ContaRepository contaRepository;
 
@@ -67,11 +67,11 @@ public class ContaService {
 		ContaModelDb contaDb = this.obterConta(uuid);
 		valor = valor.setScale(2, RoundingMode.DOWN);
 
-		if(valor.doubleValue() > 0) {
-			if(valor.doubleValue() <= LIMITE_MAX_DE_DEPOSITO) {
+		if(valor.compareTo(new BigDecimal("0")) > 0) {
+			if(valor.compareTo(new BigDecimal(LIMITE_MAX_DE_DEPOSITO)) < 1) {
 				contaDb.setValor(contaDb.getValor().add(valor));
 				contaRepository.save(contaDb);
-			}else throw new InvalidValueException("depositar: valor acima de R$ 5000,00");
+			}else throw new InvalidValueException("depositar: valor acima de R$ " + LIMITE_MAX_DE_DEPOSITO.replace(".", ","));
 		}else throw new InvalidValueException("depositar: valor abaixo de R$ 0,01");
 		
 		return this.contaParaResposta(contaDb);
@@ -81,8 +81,8 @@ public class ContaService {
 		ContaModelDb contaDb = this.obterConta(uuid);
 		valor = valor.setScale(2, RoundingMode.DOWN);
 
-		if(valor.doubleValue() > 0) {
-			if(valor.doubleValue() <= contaDb.getValor().doubleValue()) {
+		if(valor.compareTo(new BigDecimal("0")) > 0) {
+			if(valor.compareTo(contaDb.getValor()) < 1) {
 				contaDb.setValor(contaDb.getValor().subtract(valor));
 				contaRepository.save(contaDb);
 			}else throw new InvalidValueException("sacar: valor de saque acima do valor depositado na conta");
@@ -96,8 +96,8 @@ public class ContaService {
 		ContaModelDb contaDbRecebe = this.obterConta(uuidRecebe);
 		valor = valor.setScale(2, RoundingMode.DOWN);
 
-		if(valor.doubleValue() < 0.01) throw new InvalidValueException("tranferir: valor abaixo de R$ 0,01");
-		if(contaDbRetira.getValor().doubleValue() < valor.doubleValue()) throw new InvalidValueException("transferir: valor de transferência acima do valor depositado na conta");
+		if(valor.compareTo(new BigDecimal("0")) < 1) throw new InvalidValueException("tranferir: valor abaixo de R$ 0,01");
+		if(contaDbRetira.getValor().compareTo(valor) < 0) throw new InvalidValueException("transferir: valor de transferência acima do valor depositado na conta");
 
 		contaDbRetira.setValor(contaDbRetira.getValor().subtract(valor));
 		contaDbRecebe.setValor(contaDbRecebe.getValor().add(valor));
@@ -110,7 +110,7 @@ public class ContaService {
 	
 	public void deletarConta(String uuid){	
 		ContaModelDb contaDb = this.obterConta(uuid);
-		if(contaDb.getValor().doubleValue() == 0) {
+		if(contaDb.getValor().compareTo(new BigDecimal("0")) == 0) {
 			while(contaDb.getCompras().size() > 0){
 				CompraModelDb compraDb = contaDb.getCompras().get(contaDb.getCompras().size() - 1);
 				compraRepository.deleteById(compraDb.getId());
@@ -131,7 +131,9 @@ public class ContaService {
 		compraDb.setValor(compraRequest.getValor().setScale(2, RoundingMode.DOWN));
 		compraDb.setConta(contaDb);
 
-		if(compraDb.getValor().doubleValue() > contaDb.getValor().doubleValue()) throw new InvalidValueException("comprar: valor insuficiente na conta");
+		//Adicionar restrição de compra com valor negativo
+
+		if(compraDb.getValor().compareTo(contaDb.getValor()) > 0) throw new InvalidValueException("comprar: valor insuficiente na conta");
 		else{
 			contaDb.setValor(contaDb.getValor().subtract(compraDb.getValor()));
 			contaRepository.save(contaDb);
