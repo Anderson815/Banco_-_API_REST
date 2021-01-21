@@ -18,4 +18,6 @@ public class ContaModelRequest {
     public String getRg() {
         return rg;
     }
+    public void setNome(String nome){this.nome = nome;}
+    public void setRg(String rg){this.rg = rg;}
 }
