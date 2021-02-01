@@ -43,4 +43,10 @@ public class ContaModelResponse {
 		this.valor = valor;
 	}
 
+	@Override
+	public boolean equals(Object objetoComparado){
+		ContaModelResponse contaComparado = (ContaModelResponse) objetoComparado;
+		if(this.getId().equals(contaComparado.getId()) && this.getRg().equals(contaComparado.getRg())) return true;
+		else return false;
+	}
 }

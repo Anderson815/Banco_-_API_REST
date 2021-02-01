@@ -19,6 +19,8 @@ import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -57,6 +59,71 @@ public class ContaServiceTest {
                 .thenReturn(Optional.ofNullable(null));
 
         ContaModelResponse contaResponse = contaService.getConta(uuidConta);
+    }
+
+    @Test
+    public void testGetContasComSucesso(){
+
+        //preparo
+
+        ContaModelDb conta1 = new ContaModelDb();
+        conta1.setId("111111111");
+        conta1.setNome("Anderson");
+        conta1.setRg("123456789");
+        conta1.setValor(new BigDecimal("450.00"));
+
+        ContaModelDb conta2 = new ContaModelDb();
+        conta2.setId("222222222");
+        conta2.setNome("Beatriz");
+        conta2.setRg("234567890");
+        conta2.setValor(new BigDecimal("300.00"));
+
+        ContaModelDb conta3 = new ContaModelDb();
+        conta3.setId("333333333");
+        conta3.setNome("Caio");
+        conta3.setRg("345678901");
+        conta3.setValor(new BigDecimal("150.00"));
+        
+        List<ContaModelDb> listaContasDb = new ArrayList<>();
+        
+        listaContasDb.add(conta1);
+        listaContasDb.add(conta2);
+        listaContasDb.add(conta3);
+        
+        when(contaRepository.findAll())
+                .thenReturn(listaContasDb);
+
+        //resultado experado
+
+        ContaModelResponse contaResposta1 = new ContaModelResponse();
+        contaResposta1 .setId("111111111");
+        contaResposta1 .setNome("Anderson");
+        contaResposta1 .setRg("123456789");
+        contaResposta1 .setValor(new BigDecimal("450.00"));
+
+        ContaModelResponse contaResposta2 = new ContaModelResponse();
+        contaResposta2.setId("222222222");
+        contaResposta2.setNome("Beatriz");
+        contaResposta2.setRg("234567890");
+        contaResposta2.setValor(new BigDecimal("300.00"));
+
+        ContaModelResponse contaResposta3 = new ContaModelResponse();
+        contaResposta3.setId("333333333");
+        contaResposta3.setNome("Caio");
+        contaResposta3.setRg("345678901");
+        contaResposta3.setValor(new BigDecimal("150.00"));
+
+        List<ContaModelResponse> listaEsperada = new ArrayList<>();
+
+        listaEsperada.add(contaResposta1);
+        listaEsperada.add(contaResposta2);
+        listaEsperada.add(contaResposta3);
+
+
+        //teste
+        List<ContaModelResponse> listaAtual = contaService.getContas();
+        assertArrayEquals(listaEsperada.toArray(), listaAtual.toArray());
+
     }
 
     @Test
