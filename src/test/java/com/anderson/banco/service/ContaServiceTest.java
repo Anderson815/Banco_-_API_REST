@@ -37,6 +37,7 @@ public class ContaServiceTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
+    //Testes do método getConta()
     @Test
     public void testGetContaComSucesso(){
 
@@ -71,6 +72,7 @@ public class ContaServiceTest {
         ContaModelResponse contaResponse = contaService.getConta(uuidConta);
     }
 
+    //Teste do método getContas()
     @Test
     public void testGetContasComSucesso(){
 
@@ -135,6 +137,7 @@ public class ContaServiceTest {
 
     }
 
+    //Testes do método criarConta()
     @Test
     public void testCriarContaComSucesso(){
 
@@ -168,6 +171,7 @@ public class ContaServiceTest {
         ContaModelResponse contaResponse = contaService.criarConta(contaRequest);
     }
 
+    //Testes do método depositarDinheiro()
     @Test
     public void testDepositarDinheiroComSucesso(){
 
@@ -196,7 +200,7 @@ public class ContaServiceTest {
 
         //parâmetro
         String uuidConta = "111111111";
-        BigDecimal valor = new BigDecimal("0.00");
+        BigDecimal valor = new BigDecimal("10.00");
 
         //esperado
         thrown.expect(NotFoundException.class);
@@ -254,9 +258,98 @@ public class ContaServiceTest {
         ContaModelResponse contaResponse = contaService.depositarDinheiro(uuid, valor);
     }
 
+    //Testes do método sacarDinheiro()
+    @Test
+    public void testSacarDinheiroComSucesso(){
+
+        //Esperado
+        BigDecimal valorEsperado = new BigDecimal("79.45");
+
+        //parâmetro
+        String uuid = "111111111";
+        BigDecimal valor = new BigDecimal("20.55");
+
+        //Objeto para a simulação
+        ContaModelDb contaDb = contaDb();
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        //Teste
+        ContaModelResponse contaResponse = contaService.sacarDinheiro(uuid, valor);
+        BigDecimal valorAtual = contaResponse.getValor();
+        assertEquals(valorEsperado, valorAtual);
+    }
+
+    @Test
+    public void testSacarDinheiroFalhaIdInexistente(){
+
+        //Parâmetros
+        String uuid = "1111111111";
+        BigDecimal valor = new BigDecimal("100.00");
+
+        //Esperado
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Não encontramos a conta: " + uuid);
+
+        //Objeto para simulação
+        ContaModelDb contaDb = contaDb();
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.ofNullable(null));
+
+        //Teste
+        ContaModelResponse contaResponse = contaService.sacarDinheiro(uuid, valor);
+    }
+
+    @Test
+    public void testSacarDinheiroFalhaDinheiroAbaixoDe1Centavo(){
+
+        //Parâmetros
+        String uuid = "111111111";
+        BigDecimal valor = new BigDecimal("0.00");
+
+        //Esperado
+        thrown.expect(InvalidValueException.class);
+        thrown.expectMessage("Valor inválido para sacar: valor abaixo de R$ 0,01");
+
+        //Objeto para a simulação
+        ContaModelDb contaDb = contaDb();
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        //Teste
+        ContaModelResponse contaResponse = contaService.sacarDinheiro(uuid, valor);
+    }
+
+    @Test
+    public void testSacarDinheiroFalhaDinheiraAcimaDoDepositado(){
+
+        //Parâmetros
+        String uuid = "111111111";
+        BigDecimal valor = new BigDecimal("100.01");
+
+        //Esperado
+        thrown.expect(InvalidValueException.class);
+        thrown.expectMessage("Valor inválido para sacar: valor de saque acima do valor depositado na conta");
+
+        //Objeto para simulação
+        ContaModelDb contaDb = contaDb();
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        //Teste
+        ContaModelResponse contaResponse = contaService.sacarDinheiro(uuid, valor);
+    }
+
     //Métodos preparadores
     private ContaModelDb contaDb(){
-
         ContaModelDb contaDb = new ContaModelDb();
         contaDb.setId("111111111");
         contaDb.setNome("Anderson");
