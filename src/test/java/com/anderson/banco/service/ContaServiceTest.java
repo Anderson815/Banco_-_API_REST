@@ -8,7 +8,9 @@ import com.anderson.banco.model.response.ContaModelResponse;
 import com.anderson.banco.repository.ContaRepository;
 import com.anderson.banco.service.ContaService;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -31,33 +33,36 @@ public class ContaServiceTest {
     @InjectMocks
     private ContaService contaService;
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Test
     public void testGetContaComSucesso(){
 
-        String uuidConta = "444444444";
+        //parêmetro 
+        ContaModelDb contaDb = contaDb();
+        String uuidConta = contaDb.getId();
 
-        ContaModelDb contaDb = new ContaModelDb();
-        contaDb.setId("444444444");
-        contaDb.setNome("Anderson");
-        contaDb.setRg("123456789");
-        contaDb.setValor(new BigDecimal("150.00"));
-
+        //simulação do repository
         when(contaRepository.findById(uuidConta))
                 .thenReturn(Optional.of(contaDb));
 
+        //teste
         ContaModelResponse contaResponse = contaService.getConta(uuidConta);
         assertNotNull(contaResponse);
         assertEquals(uuidConta, contaResponse.getId());
-
     }
 
     @Test(expected = NotFoundException.class)
     public void testGetContaFalhaIdInexistente(){
-        String uuidConta = "444444444";
+        //parâmetro
+        String uuidConta = "111111111";
 
+        //simulação do repository
         when(contaRepository.findById(uuidConta))
                 .thenReturn(Optional.ofNullable(null));
 
+        //teste
         ContaModelResponse contaResponse = contaService.getConta(uuidConta);
     }
 
@@ -65,7 +70,6 @@ public class ContaServiceTest {
     public void testGetContasComSucesso(){
 
         //preparo
-
         ContaModelDb conta1 = new ContaModelDb();
         conta1.setId("111111111");
         conta1.setNome("Anderson");
@@ -89,12 +93,12 @@ public class ContaServiceTest {
         listaContasDb.add(conta1);
         listaContasDb.add(conta2);
         listaContasDb.add(conta3);
-        
+
+        //simulação do repository
         when(contaRepository.findAll())
                 .thenReturn(listaContasDb);
 
         //resultado experado
-
         ContaModelResponse contaResposta1 = new ContaModelResponse();
         contaResposta1 .setId("111111111");
         contaResposta1 .setNome("Anderson");
@@ -128,29 +132,88 @@ public class ContaServiceTest {
 
     @Test
     public void testCriarContaComSucesso(){
+
+        //parâmetro
         ContaModelRequest contaRequest = new ContaModelRequest();
         contaRequest.setNome("Anderson");
-        contaRequest.setRg("444444444");
+        contaRequest.setRg("111111111");
 
+        //simulação do repository
         when(contaRepository.existsByRg(contaRequest.getRg())).thenReturn(false);
 
+        //teste
         ContaModelResponse contaResponse = contaService.criarConta(contaRequest);
         assertNotNull(contaResponse);
         assertEquals(contaRequest.getRg(), contaResponse.getRg());
         assertEquals(contaRequest.getNome(), contaResponse.getNome());
     }
 
-
     @Test(expected = RequestConstraintException.class)
     public void testCriarContaFalhaRgExistente(){
 
+        //parâmetro
         ContaModelRequest contaRequest = new ContaModelRequest();
         contaRequest.setNome("Anderson");
         contaRequest.setRg("444444444");
 
+        //simulação do repository
         when(contaRepository.existsByRg(contaRequest.getRg())).thenReturn(true);
 
+        //teste
         ContaModelResponse contaResponse = contaService.criarConta(contaRequest);
-        assertNull(contaResponse);
+    }
+
+    @Test
+    public void testDepositarDinheiroComSucesso(){
+
+        //Esperado
+        BigDecimal valorEsperado = new BigDecimal("1100.00");
+
+        //Parâmetros
+        String uuid = "111111111";
+        BigDecimal valor = new BigDecimal("1000.00");
+
+        //Objeto para a busca do repository
+        ContaModelDb contaDb = contaDb();
+
+        //simulação do repository
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        //teste
+        ContaModelResponse contaResposta = contaService.depositarDinheiro(uuid, valor);
+        BigDecimal valorAtual = contaResposta.getValor();
+        assertEquals(valorEsperado, valorAtual);
+    }
+
+    @Ignore
+    @Test
+    public void testDepositarDinheiroFalhaDinheiroAbaixoDe1Centavo(){
+
+        //Parametros
+        String uuid = "111111111";
+        BigDecimal valor = new BigDecimal("0.00");
+
+        //Objeto para a busca do repository
+        ContaModelDb contaDb = contaDb();
+
+        //simulação do repository
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        //teste
+        ContaModelResponse contaResposta = contaService.depositarDinheiro(uuid, valor);
+    }
+
+    //Métodos preparadores
+    private ContaModelDb contaDb(){
+
+        ContaModelDb contaDb = new ContaModelDb();
+        contaDb.setId("111111111");
+        contaDb.setNome("Anderson");
+        contaDb.setRg("123456789");
+        contaDb.setValor(new BigDecimal("100.00"));
+
+        return contaDb;
     }
 }
