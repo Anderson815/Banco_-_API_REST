@@ -1,5 +1,6 @@
 package com.anderson.banco.service;
 
+import com.anderson.banco.exceptions.InvalidValueException;
 import com.anderson.banco.exceptions.NotFoundException;
 import com.anderson.banco.exceptions.RequestConstraintException;
 import com.anderson.banco.model.db.ContaModelDb;
@@ -39,7 +40,7 @@ public class ContaServiceTest {
     @Test
     public void testGetContaComSucesso(){
 
-        //parêmetro 
+        //parêmetro
         ContaModelDb contaDb = contaDb();
         String uuidConta = contaDb.getId();
 
@@ -53,10 +54,14 @@ public class ContaServiceTest {
         assertEquals(uuidConta, contaResponse.getId());
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testGetContaFalhaIdInexistente(){
         //parâmetro
         String uuidConta = "111111111";
+
+        //esperado
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Não encontramos a conta: " + uuidConta);
 
         //simulação do repository
         when(contaRepository.findById(uuidConta))
@@ -186,23 +191,67 @@ public class ContaServiceTest {
         assertEquals(valorEsperado, valorAtual);
     }
 
-    @Ignore
+    @Test
+    public void testDepositarDinheiroFalhaIdInexistente(){
+
+        //parâmetro
+        String uuidConta = "111111111";
+        BigDecimal valor = new BigDecimal("0.00");
+
+        //esperado
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Não encontramos a conta: " + uuidConta);
+
+        //simulação do repository
+        when(contaRepository.findById(uuidConta))
+                .thenReturn(Optional.ofNullable(null));
+
+        //teste
+        ContaModelResponse contaResponse = contaService.depositarDinheiro(uuidConta, valor);
+    }
+
     @Test
     public void testDepositarDinheiroFalhaDinheiroAbaixoDe1Centavo(){
 
-        //Parametros
+        //Esperado
+        thrown.expect(InvalidValueException.class);
+        thrown.expectMessage("Valor inválido para depositar: valor abaixo de R$ 0,01");
+
+        //Parâmetros
         String uuid = "111111111";
         BigDecimal valor = new BigDecimal("0.00");
 
         //Objeto para a busca do repository
         ContaModelDb contaDb = contaDb();
 
-        //simulação do repository
+        //Simulação do repository
         when(contaRepository.findById(uuid))
                 .thenReturn(Optional.of(contaDb));
 
-        //teste
+        //Teste
         ContaModelResponse contaResposta = contaService.depositarDinheiro(uuid, valor);
+    }
+
+    @Test
+    public void testDepositarDinheiroFalhaDinheiroAcimaDoLimite(){
+
+        //Esperado
+        thrown.expect(InvalidValueException.class);
+        thrown.expectMessage("Valor inválido para depositar: valor acima de R$ 5000,00");
+
+        //Parâmetros
+        String uuid = "111111111";
+        BigDecimal valor = new BigDecimal("5000.01");
+
+        //Objeto para a simulação
+        ContaModelDb contaDb = contaDb();
+
+        //Simulação do repository
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        //Teste
+        ContaModelResponse contaResponse = contaService.depositarDinheiro(uuid, valor);
     }
 
     //Métodos preparadores
