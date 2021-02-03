@@ -348,6 +348,138 @@ public class ContaServiceTest {
         ContaModelResponse contaResponse = contaService.sacarDinheiro(uuid, valor);
     }
 
+    //Teste do método transferir()
+    @Test
+    public void testTransferirComSucesso(){
+
+        //Parâmetros
+        String uuidRetira = "111111111";
+        String uuidRecebe = "222222222";
+        BigDecimal valor = new BigDecimal("25.10");
+
+        //Esperados
+        BigDecimal valorContaRetiraEsperado = new BigDecimal("74.90");
+
+        //Objeto para simulação
+        ContaModelDb contaDbRetira = contaDb();
+        ContaModelDb contaDbRecebe = contaDbRecebe();
+
+
+        //Simulações
+        when(contaRepository.findById(uuidRetira))
+                .thenReturn(Optional.of(contaDbRetira));
+
+        when(contaRepository.findById(uuidRecebe))
+                .thenReturn(Optional.of(contaDbRecebe));
+
+        //Teste
+        ContaModelResponse contaResponseRetira = contaService.tranferir(uuidRetira, uuidRecebe, valor);
+        BigDecimal valorContaRetiraAtual = contaResponseRetira.getValor();
+        assertEquals(valorContaRetiraEsperado, valorContaRetiraAtual);
+    }
+
+    @Test
+    public void testTransferirFalhaIdContaRetiraInexistente(){
+
+        //Parâmetros
+        String uuidRetira = "111111111";
+        String uuidRecebe = "222222222";
+        BigDecimal valor = new BigDecimal("25.10");
+
+        //Esperado
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Não encontramos a conta: " + uuidRetira);
+
+        //Simulação
+        when(contaRepository.findById(uuidRetira))
+                .thenReturn(Optional.ofNullable(null));
+
+        //Teste
+        ContaModelResponse contaResponse = contaService.tranferir(uuidRetira, uuidRecebe, valor);
+    }
+
+    @Test
+    public void testTransferirFalhaIdContaRecebeInexistente(){
+
+        //Parâmetros
+        String uuidRetira = "111111111";
+        String uuidRecebe = "222222222";
+        BigDecimal valor = new BigDecimal("25.10");
+
+        //Esperado
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Não encontramos a conta: " + uuidRecebe);
+
+        //Objeto para simulação
+        ContaModelDb contaDbRetira = contaDb();
+
+        //Simulação
+        when(contaRepository.findById(uuidRetira))
+                .thenReturn(Optional.of(contaDbRetira));
+
+        when(contaRepository.findById(uuidRecebe))
+                .thenReturn(Optional.ofNullable(null));
+
+        //Teste
+        ContaModelResponse contaResponse = contaService.tranferir(uuidRetira, uuidRecebe, valor);
+    }
+
+    @Test
+    public void testTransferirFalhaDinheiroAbaixoDe1Centavo(){
+
+        //Parâmetros
+        String uuidRetira = "111111111";
+        String uuidRecebe = "222222222";
+        BigDecimal valor = new BigDecimal("0.00");
+
+        //Esperados
+        thrown.expect(InvalidValueException.class);
+        thrown.expectMessage("Valor inválido para tranferir: valor abaixo de R$ 0,01");
+
+        //Objeto para simulação
+        ContaModelDb contaDbRetira = contaDb();
+        ContaModelDb contaDbRecebe = contaDbRecebe();
+
+
+        //Simulações
+        when(contaRepository.findById(uuidRetira))
+                .thenReturn(Optional.of(contaDbRetira));
+
+        when(contaRepository.findById(uuidRecebe))
+                .thenReturn(Optional.of(contaDbRecebe));
+
+        //Teste
+        ContaModelResponse contaResponseRetira = contaService.tranferir(uuidRetira, uuidRecebe, valor);
+    }
+
+    @Test
+    public void testTransferirFalhaDinheiraAcimaDoDepositado(){
+
+        //Parâmetros
+        String uuidRetira = "111111111";
+        String uuidRecebe = "222222222";
+        BigDecimal valor = new BigDecimal("100.01");
+
+        //Esperados
+        thrown.expect(InvalidValueException.class);
+        thrown.expectMessage("Valor inválido para transferir: valor de transferência acima do valor depositado na conta");
+
+        //Objeto para simulação
+        ContaModelDb contaDbRetira = contaDb();
+        ContaModelDb contaDbRecebe = contaDbRecebe();
+
+
+        //Simulações
+        when(contaRepository.findById(uuidRetira))
+                .thenReturn(Optional.of(contaDbRetira));
+
+        when(contaRepository.findById(uuidRecebe))
+                .thenReturn(Optional.of(contaDbRecebe));
+
+        //Teste
+        ContaModelResponse contaResponseRetira = contaService.tranferir(uuidRetira, uuidRecebe, valor);
+    }
+
     //Métodos preparadores
     private ContaModelDb contaDb(){
         ContaModelDb contaDb = new ContaModelDb();
@@ -357,5 +489,16 @@ public class ContaServiceTest {
         contaDb.setValor(new BigDecimal("100.00"));
 
         return contaDb;
+    }
+
+    // OBS: Só para o teste de transferência
+    private ContaModelDb contaDbRecebe(){
+        ContaModelDb contaDbRecebe = new ContaModelDb();
+        contaDbRecebe.setId("222222222");
+        contaDbRecebe.setNome("Emily");
+        contaDbRecebe.setRg("987654321");
+        contaDbRecebe.setValor(new BigDecimal("100.00"));
+
+        return contaDbRecebe;
     }
 }
