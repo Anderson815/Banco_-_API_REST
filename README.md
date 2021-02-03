@@ -1,6 +1,6 @@
 <h1>Banco - API REST</h1>
 <p>
-Este projeto foi um desafio sugerido pelo <a href="https://www.linkedin.com/in/cesar-sales/">Cesar Sales</a> com o objetivo de eu apreder tecnologias, ferramentas e técnicas modernas voltadas ao desenvolvimento backend por meio da linguaguem Java (listas destas ferramentas na seção <a href="#habilidade">Habilidades Usadas</a>), além disso ele me deu muitas dicas e orientações ao longo do desenvolvimento.
+Este projeto foi um desafio sugerido pelo <a href="https://www.linkedin.com/in/cesar-sales/">Cesar Sales</a> com o objetivo de eu apreder tecnologias, ferramentas e técnicas modernas voltadas ao desenvolvimento backend por meio da linguaguem Java (lista das ferramentas na seção <a href="#habilidade">Habilidades Usadas</a>), além disso ele me deu muitas dicas e orientações ao longo do desenvolvimento.
 </p>
 <p>
 </p>
