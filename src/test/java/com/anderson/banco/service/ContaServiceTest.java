@@ -1,11 +1,14 @@
 package com.anderson.banco.service;
 
+import com.anderson.banco.exceptions.DeleteAccountException;
 import com.anderson.banco.exceptions.InvalidValueException;
 import com.anderson.banco.exceptions.NotFoundException;
 import com.anderson.banco.exceptions.RequestConstraintException;
+import com.anderson.banco.model.db.CompraModelDb;
 import com.anderson.banco.model.db.ContaModelDb;
 import com.anderson.banco.model.request.ContaModelRequest;
 import com.anderson.banco.model.response.ContaModelResponse;
+import com.anderson.banco.repository.CompraRepository;
 import com.anderson.banco.repository.ContaRepository;
 import com.anderson.banco.service.ContaService;
 import org.junit.Ignore;
@@ -30,6 +33,9 @@ import java.util.Optional;
 public class ContaServiceTest {
     @Mock
     private ContaRepository contaRepository;
+
+    @Mock
+    private CompraRepository compraRepository;
 
     @InjectMocks
     private ContaService contaService;
@@ -480,17 +486,108 @@ public class ContaServiceTest {
         ContaModelResponse contaResponseRetira = contaService.tranferir(uuidRetira, uuidRecebe, valor);
     }
 
+    //Teste do método deletarConta()
+    @Test
+    public void testDeletarContaComSucesso(){
+
+        //Parâmetros
+        String uuid = "111111111";
+
+        //Objeto para simulação
+        ContaModelDb contaDb = contaDb();
+        contaDb.setCompras(compras(contaDb));
+        contaDb.setValor(new BigDecimal("0.00"));
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        //Teste
+        contaService.deletarConta(uuid);
+    }
+
+    @Test
+    public void testDeletarContaFalhaIdInexistente(){
+
+        //Parâmetros
+        String uuid = "111111111";
+
+        //Esperado
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Não encontramos a conta: " + uuid);
+
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.ofNullable(null));
+
+        //Teste
+        contaService.deletarConta(uuid);
+    }
+
+    @Test(expected = DeleteAccountException.class)
+    public void testDeletarContaFalhaDinheiroNaConta(){
+
+        //Parâmetros
+        String uuid = "111111111";
+
+        //Objeto para simulação
+        ContaModelDb contaDb = contaDb();
+        contaDb.setCompras(compras(contaDb));
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        //Teste
+        contaService.deletarConta(uuid);
+    }
+
     //Métodos preparadores
     private ContaModelDb contaDb(){
+        List<CompraModelDb> compras = new ArrayList<>();
+
         ContaModelDb contaDb = new ContaModelDb();
         contaDb.setId("111111111");
         contaDb.setNome("Anderson");
         contaDb.setRg("123456789");
         contaDb.setValor(new BigDecimal("100.00"));
+        contaDb.setCompras(compras);
 
         return contaDb;
     }
 
+    private List<CompraModelDb> compras(ContaModelDb contaDb){
+        CompraModelDb compra1 = new CompraModelDb();
+
+        compra1.setId(1);
+        compra1.setTitulo("A");
+        compra1.setValor(new BigDecimal("450.00"));
+        compra1.setConta(contaDb);
+
+        CompraModelDb compra2 = new CompraModelDb();
+
+        compra2.setId(2);
+        compra2.setTitulo("B");
+        compra2.setValor(new BigDecimal("300.00"));
+        compra2.setConta(contaDb);
+
+        CompraModelDb compra3 = new CompraModelDb();
+
+        compra3.setId(3);
+        compra3.setTitulo("C");
+        compra3.setValor(new BigDecimal("150.00"));
+        compra3.setConta(contaDb);
+
+        List<CompraModelDb> compras = new ArrayList<>();
+
+        compras.add(compra1);
+        compras.add(compra2);
+        compras.add(compra3);
+
+        return compras;
+    }
+    
     // OBS: Só para o teste de transferência
     private ContaModelDb contaDbRecebe(){
         ContaModelDb contaDbRecebe = new ContaModelDb();
