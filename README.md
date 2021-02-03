@@ -3,13 +3,16 @@
 Este projeto foi um desafio sugerido pelo <a href="https://www.linkedin.com/in/cesar-sales/">Cesar Sales</a> com o objetivo de eu apreder tecnologias, ferramentas e técnicas modernas voltadas ao desenvolvimento backend por meio da linguaguem Java (lista das ferramentas na seção <a href="#habilidade">Habilidades Usadas</a>), além disso ele me deu muitas dicas e orientações ao longo do desenvolvimento.
 </p>
 <p>
+Esta é uma API de pagamento, eu chamo ela de banco, com ela é possível fazer operações básicas de um banco, como: depositar, sacar, trasferir, comprar e entre outras funcionalidades (todas as funcionalidades estão na seção <a href="#endpoints">Endpoint</a>). 
 </p>
-quando? por que? o que? como?  
+<p>  
+Embora seja um projeto simples não deixa de ser completo, pois tem relacionamento entre entidades, há validação para as requisições, status code adequado para a resposta, um padrão de exceções, separção por camadas e muitas outras coisas (os meios para testar a aplicação está na seção <a href="#acesso">Para acessar a API</a>) você pode verificar o código. 
 </p>
+
 <img src="Midia/Banco_-_API_REST.png">
 
 
-<h2>:dart: Endpoints e suas funcionalidades</h2>
+<h2 id="endpoints">:dart: Endpoints</h2>
 
 | Método/Verbo | Endpoint                          |  Funcionalidade                                                        |
 |--------------|-----------------------------------|------------------------------------------------------------------------|
@@ -41,7 +44,7 @@ quando? por que? o que? como?
   <li>REST</li>
 </ul>
 
-<h2>:checkered_flag: Para acessar a API</h2>
+<h2 id="acesso">:checkered_flag: Para acessar a API</h2>
 <p>Basta clicar <a href="https://bancoapirest.herokuapp.com/swagger-ui.html#/Conta">aqui</a> para ver e fazer os teste da API</p>
 <p>Caso você queira usar o Postman para testar é só usar este domínio: https://bancoapirest.herokuapp.com</p>
 
