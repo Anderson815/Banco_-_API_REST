@@ -7,18 +7,18 @@ quando? por que? o que? como?
 
 <h2>:dart: Endpoints e suas funcionalidades</h2>
 
-| Método/Verbo | Endpoint                          | 
-|--------------|-----------------------------------|
-| GET          | /conta                            |
-| GET          | /conta{uuid}                      |
-| POST         | /conta                            |
-| PUT          | /conta/{uuid}/deposito            |
-| PUT          | /conta/{uuid}/saque               |
-| PUT          | /conta/{uuidRetira}/transferencia |
-| DELETE       | /conta/{uuid}                     |
-| GET          | /conta/{uuid}/compra              |
-| GET          | /conta/{uuid}/compra/{id_compra}  |
-| POST         | /conta/{uuid}/compra              |
+| Método/Verbo | Endpoint                          |  Funcionalidade                                                        |
+|--------------|-----------------------------------|------------------------------------------------------------------------|
+| GET          | /conta                            | Retorna todas as contas cadastradas no banco                           |
+| GET          | /conta/{uuid}                     | Retorna uma conta específica através do ID informado                   |
+| POST         | /conta                            | Cadastra uma nova conta no banco                                       |
+| PUT          | /conta/{uuid}/deposito            | Deposita dinheiro na conta correpondente ao ID informado               |
+| PUT          | /conta/{uuid}/saque               | Saca dinheiro na conta correpondente ao ID informado                   |
+| PUT          | /conta/{uuidRetira}/transferencia | Transfere dinheiro de uma conta para outra através dos seus IDs        |
+| DELETE       | /conta/{uuid}                     | Deleta uma conta do banco através do seu ID                            |
+| GET          | /conta/{uuid}/compra              | Retorna todas as compras da conta do ID informado                      |
+| GET          | /conta/{uuid}/compra/{id_compra}  | Retorna uma compra especifíca através do seu ID e da Conta responsável |
+| POST         | /conta/{uuid}/compra              | Cria uma nova compra através do ID da conta responsável                |
 
 
 <h2>:mortar_board: Habilidades usadas</h2>
