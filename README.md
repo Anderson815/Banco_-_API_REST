@@ -14,19 +14,23 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
 
 <h2 id="endpoints">:dart: Endpoints</h2>
 
-| Método/Verbo | Endpoint                          |  Funcionalidade                                                        |
-|--------------|-----------------------------------|------------------------------------------------------------------------|
-| GET          | /conta                            | Retorna todas as contas cadastradas no banco                           |
-| GET          | /conta/{uuid}                     | Retorna uma conta específica através do ID informado                   |
-| POST         | /conta                            | Cadastra uma nova conta no banco                                       |
-| PUT          | /conta/{uuid}/deposito            | Deposita dinheiro na conta correpondente ao ID informado               |
-| PUT          | /conta/{uuid}/saque               | Saca dinheiro na conta correpondente ao ID informado                   |
-| PUT          | /conta/{uuidRetira}/transferencia | Transfere dinheiro de uma conta para outra através dos seus IDs        |
-| DELETE       | /conta/{uuid}                     | Deleta uma conta do banco através do seu ID                            |
-| GET          | /conta/{uuid}/compra              | Retorna todas as compras da conta do ID informado                      |
-| GET          | /conta/{uuid}/compra/{id_compra}  | Retorna uma compra especifíca através do seu ID e da Conta responsável |
-| POST         | /conta/{uuid}/compra              | Cria uma nova compra através do ID da conta responsável                |
+| Endpoint | Método/Verbo | Endpoint                          |  Funcionalidade                                                        |
+|:------:|--------------|-----------------------------------|------------------------------------------------------------------------|
+| 01   | GET          | /conta                            | Retorna todas as contas cadastradas no banco                           |
+| 02   | GET          | /conta/{uuid}                     | Retorna uma conta específica através do ID informado                   |
+| 03   | POST         | /conta                            | Cadastra uma nova conta no banco                                       |
+| 04   | PUT          | /conta/{uuid}/deposito            | Deposita dinheiro na conta correpondente ao ID informado               |
+| 05   | PUT          | /conta/{uuid}/saque               | Saca dinheiro na conta correpondente ao ID informado                   |
+| 06   | PUT          | /conta/{uuidRetira}/transferencia | Transfere dinheiro de uma conta para outra através dos seus IDs        |
+| 07   | DELETE       | /conta/{uuid}                     | Deleta uma conta do banco através do seu ID                            |
+| 08   | GET          | /conta/{uuid}/compra              | Retorna todas as compras da conta do ID informado                      |
+| 09   | GET          | /conta/{uuid}/compra/{id_compra}  | Retorna uma compra especifíca através do seu ID e da Conta responsável |
+| 10   | POST         | /conta/{uuid}/compra              | Cria uma nova compra através do ID da conta responsável                |
 
+<br/>
+
+| <p id="1">GET</p> | /conta | Retorna todas as contas cadastradas no banco | 
+|---|---|----------------------------------------------|
 
 <h2 id="habilidade">:mortar_board: Habilidades usadas</h2>
 <ul>
