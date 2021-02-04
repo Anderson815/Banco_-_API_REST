@@ -17,7 +17,7 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
 | Endpoint | Método/Verbo | Endpoint                          |  Funcionalidade                                                        |
 |:------:|--------------|-----------------------------------|------------------------------------------------------------------------|
 | <a href="#1">01</a>   | GET          | /conta                            | Retorna todas as contas cadastradas no banco                           |
-| 02   | GET          | /conta/{uuid}                     | Retorna uma conta específica através do ID informado                   |
+| <a href="#2">02</a>   | GET          | /conta/{uuid}                     | Retorna uma conta específica através do ID informado                   |
 | 03   | POST         | /conta                            | Cadastra uma nova conta no banco                                       |
 | 04   | PUT          | /conta/{uuid}/deposito            | Deposita dinheiro na conta correpondente ao ID informado               |
 | 05   | PUT          | /conta/{uuid}/saque               | Saca dinheiro na conta correpondente ao ID informado                   |
@@ -35,16 +35,36 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
 | GET | /conta | Retorna todas as contas cadastradas no banco | 
 |---|---|---|
 
-  <h4>Request</h4>
+  <h4>Request:</h4>
 
   <p>Não possui parâmetros</p>
   <p>Exemplo da request: https://bancoapirest.herokuapp.com/conta</p>
 
-  <h4>Response</h4>
+  <h4>Response:</h4>
   
   | Status Code | Status | Motivo     |
   |-------------|--------|------------|
   | 200         | OK     | Tudo certo |
+
+<h3 id="2">Endpoint 2:</h3>
+
+|GET          | /conta/{uuid}                     | Retorna uma conta específica através do ID informado                   |
+|---|---|---|
+
+  <h4>Request:</h4>
+
+  | Parâmetro | Tipo de dado| tipo de parâmetro |
+  |-----------|-------------|-------------------|
+  | uuid      | String      | Path |
+
+  <p>Exemplo da request: https://bancoapirest.herokuapp.com/conta/abcde</p>
+
+  <h4>Response:</h4>
+  
+  | Status Code | Status | Motivo     |
+  |-------------|--------|------------|
+  | 200         | OK     | Tudo certo |
+  | 404 | NOT FOUND | Não existe conta com o uuid informado |
 
 <h2 id="habilidade">:mortar_board: Habilidades usadas</h2>
 <ul>
