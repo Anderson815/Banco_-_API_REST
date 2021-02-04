@@ -47,8 +47,8 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
   | 200         | OK     | Tudo certo |
 
 
-
-
+<br/>
+<br/>
 
 <h3 id="2">Endpoint 2:</h3>
 
@@ -71,8 +71,8 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
   | 404 | NOT FOUND | Não existe conta com o uuid informado |
   
   
-  
-  
+<br/>  
+<br/>  
   
 <h3 id="3">Endpoint 3:</h3>
 
@@ -103,6 +103,8 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
   | 400 | BAD REQUEST | Não foi passado os atributos do objeto de forma adequada |
   
   
+<br/>
+<br/>
   
 
 <h2 id="habilidade">:mortar_board: Habilidades usadas</h2>
