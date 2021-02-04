@@ -48,7 +48,6 @@ public class ContaService {
 		return contasResponse;
 	}
 
-
 	public ContaModelResponse criarConta(ContaModelRequest contaRequest) {
 		if(contaRepository.existsByRg(contaRequest.getRg())) throw new RequestConstraintException("Rg já cadastrado");
 

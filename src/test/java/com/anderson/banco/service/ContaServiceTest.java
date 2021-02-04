@@ -636,6 +636,46 @@ public class ContaServiceTest {
         CompraModelResponse compraResponse = contaService.criarCompra(uuid, compraRequest);
     }
 
+    //Testes do método getCompras()
+    @Test
+    public void testGetComprasComSucesso(){
+
+        //Parâmetros
+        String uuid = "111111111";
+
+        //Objeto para simulação
+        ContaModelDb contaDb = contaDb();
+        contaDb.setCompras(compras(contaDb));
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        //Teste
+        List<CompraModelResponse> comprasResponse = contaService.getCompras(uuid);
+        assertNotNull(comprasResponse);
+        assertEquals(Integer.valueOf(3), Integer.valueOf(comprasResponse.size()));
+    }
+
+    @Test
+    public void testGetComprasFalhaIdInexistente(){
+        //parâmetro
+        String uuid = "111111111";
+
+        //esperado
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Não encontramos a conta: " + uuid);
+
+        //simulação do repository
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.ofNullable(null));
+
+        //teste
+        List<CompraModelResponse> comprasResponse = contaService.getCompras(uuid);
+    }
+
+
+
     //Métodos preparadores
     private ContaModelDb contaDb(){
         List<CompraModelDb> compras = new ArrayList<>();
