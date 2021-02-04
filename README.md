@@ -18,7 +18,7 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
 |:------:|--------------|-----------------------------------|------------------------------------------------------------------------|
 | <a href="#1">01</a>   | GET          | /conta                            | Retorna todas as contas cadastradas no banco                           |
 | <a href="#2">02</a>   | GET          | /conta/{uuid}                     | Retorna uma conta específica através do ID informado                   |
-| 03   | POST         | /conta                            | Cadastra uma nova conta no banco                                       |
+| <a href="#3">03</a>   | POST         | /conta                            | Cadastra uma nova conta no banco                                       |
 | 04   | PUT          | /conta/{uuid}/deposito            | Deposita dinheiro na conta correpondente ao ID informado               |
 | 05   | PUT          | /conta/{uuid}/saque               | Saca dinheiro na conta correpondente ao ID informado                   |
 | 06   | PUT          | /conta/{uuidRetira}/transferencia | Transfere dinheiro de uma conta para outra através dos seus IDs        |
@@ -46,6 +46,10 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
   |-------------|--------|------------|
   | 200         | OK     | Tudo certo |
 
+
+
+
+
 <h3 id="2">Endpoint 2:</h3>
 
 |GET          | /conta/{uuid}                     | Retorna uma conta específica através do ID informado                   |
@@ -53,7 +57,7 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
 
   <h4>Request:</h4>
 
-  | Parâmetro | Tipo de dado| tipo de parâmetro |
+  | Parâmetro | Tipo de dado| Tipo de parâmetro |
   |-----------|-------------|-------------------|
   | uuid      | String      | Path |
 
@@ -65,6 +69,41 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
   |-------------|--------|------------|
   | 200         | OK     | Tudo certo |
   | 404 | NOT FOUND | Não existe conta com o uuid informado |
+  
+  
+  
+  
+  
+<h3 id="3">Endpoint 3:</h3>
+
+| POST         | /conta                            | Cadastra uma nova conta no banco                                       |
+|---|---|---|
+
+  <h4>Request:</h4>
+
+  | Parâmetro | Tipo de dado| Tipo de parâmetro |
+  |-----------|-------------|-------------------|
+  | contaModelRequest | Objeto      | Body (JSON) |
+  
+  <P>Formato do JSON para representar o objeto contaModelRequest:</p>
+  <p>
+    { <br/>
+      "nome": "string",<br/>
+      "rg": "string"<br/>
+    }
+  </p>
+
+  <p>Exemplo da request: https://bancoapirest.herokuapp.com/conta</p>
+
+  <h4>Response:</h4>
+  
+  | Status Code | Status | Motivo     |
+  |-------------|--------|------------|
+  | 200         | OK     | Tudo certo |
+  | 400 | BAD REQUEST | Não foi passado os atributos do objeto de forma adequada |
+  
+  
+  
 
 <h2 id="habilidade">:mortar_board: Habilidades usadas</h2>
 <ul>
