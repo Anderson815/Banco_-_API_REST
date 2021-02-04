@@ -12,8 +12,6 @@ import com.anderson.banco.model.response.CompraModelResponse;
 import com.anderson.banco.model.response.ContaModelResponse;
 import com.anderson.banco.repository.CompraRepository;
 import com.anderson.banco.repository.ContaRepository;
-import com.anderson.banco.service.ContaService;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -674,7 +672,109 @@ public class ContaServiceTest {
         List<CompraModelResponse> comprasResponse = contaService.getCompras(uuid);
     }
 
+    //Teste do método getCompra()
+    @Test
+    public void testGetCompraComSucesso(){
 
+        //Parâmetros
+        String uuid = "111111111";
+        int id_compra = 2;
+
+        //Objeto para simulação
+        ContaModelDb contaDb = contaDb();
+        contaDb.setCompras(compras(contaDb));
+
+        CompraModelDb compraDb = contaDb.getCompras().get(1);
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        when(compraRepository.findById(id_compra))
+                .thenReturn(Optional.of(compraDb));
+
+        //Teste
+        CompraModelResponse compraResponse = contaService.getCompra(uuid, id_compra);
+        assertNotNull(compraResponse);
+        assertEquals(id_compra, compraResponse.getId());
+    }
+
+    @Test
+    public void testGetCompraFalhaIdContaInexistente(){
+        //parâmetro
+        String uuid = "111111111";
+        int id_compra = 2;
+
+        //esperado
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Não encontramos a conta: " + uuid);
+
+        //simulação do repository
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.ofNullable(null));
+
+        //teste
+        CompraModelResponse compraResponse = contaService.getCompra(uuid, id_compra);
+    }
+
+    @Test
+    public void testGetCompraFalhaIdCompraInexistente(){
+        //parâmetro
+        String uuid = "111111111";
+        int id_compra = 2;
+
+        //esperado
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Não encontramos a compra: " + id_compra);
+
+        //Objeto para simulação
+        ContaModelDb contaDb = contaDb();
+        contaDb.setCompras(compras(contaDb));
+
+        //simulação do repository
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        when(compraRepository.findById(id_compra))
+                .thenReturn(Optional.ofNullable(null));
+
+        //teste
+        CompraModelResponse compraResponse = contaService.getCompra(uuid, id_compra);
+    }
+
+    @Test
+    public void testGetCompraFalhaContaDaCompraDiferenteDaContaInformadaNoParametro(){
+
+        //Parâmetros
+        String uuid = "111111111";
+        int id_compra = 2;
+
+        //Esperado
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Não encontramos a compra: " + id_compra);
+
+        //Objetos para simulação
+        ContaModelDb contaDb = contaDb();
+
+        ContaModelDb contaDbDaCompra = new ContaModelDb();
+        contaDbDaCompra.setId("222222222");
+        contaDbDaCompra.setNome("Gustavo");
+        contaDbDaCompra.setRg("987654321");
+        contaDbDaCompra.setValor(new BigDecimal("1500.00"));
+        contaDbDaCompra.setCompras(compras(contaDbDaCompra));
+
+        CompraModelDb compraDb = contaDbDaCompra.getCompras().get(1);
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        when(compraRepository.findById(id_compra))
+                .thenReturn(Optional.of(compraDb));
+
+        //Teste
+        CompraModelResponse compraResponse = contaService.getCompra(uuid, id_compra);
+    }
 
     //Métodos preparadores
     private ContaModelDb contaDb(){
