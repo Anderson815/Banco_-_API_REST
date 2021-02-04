@@ -6,7 +6,9 @@ import com.anderson.banco.exceptions.NotFoundException;
 import com.anderson.banco.exceptions.RequestConstraintException;
 import com.anderson.banco.model.db.CompraModelDb;
 import com.anderson.banco.model.db.ContaModelDb;
+import com.anderson.banco.model.request.CompraModelRequest;
 import com.anderson.banco.model.request.ContaModelRequest;
+import com.anderson.banco.model.response.CompraModelResponse;
 import com.anderson.banco.model.response.ContaModelResponse;
 import com.anderson.banco.repository.CompraRepository;
 import com.anderson.banco.repository.ContaRepository;
@@ -354,7 +356,7 @@ public class ContaServiceTest {
         ContaModelResponse contaResponse = contaService.sacarDinheiro(uuid, valor);
     }
 
-    //Teste do método transferir()
+    //Testes do método transferir()
     @Test
     public void testTransferirComSucesso(){
 
@@ -486,7 +488,7 @@ public class ContaServiceTest {
         ContaModelResponse contaResponseRetira = contaService.tranferir(uuidRetira, uuidRecebe, valor);
     }
 
-    //Teste do método deletarConta()
+    //Testes do método deletarConta()
     @Test
     public void testDeletarContaComSucesso(){
 
@@ -543,6 +545,97 @@ public class ContaServiceTest {
         contaService.deletarConta(uuid);
     }
 
+    //Testes do método criarCompra()
+    @Test
+    public void testCriarCompraComSucesso(){
+
+        //Parâmetros
+        String uuid = "111111111";
+        CompraModelRequest compraRequest = new CompraModelRequest();
+        compraRequest.setTitulo("Controle");
+        compraRequest.setValor(new BigDecimal("50.00"));
+
+        //Objetos para simulação
+        ContaModelDb contaDb = contaDb();
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        //Teste
+        CompraModelResponse compraResponse = contaService.criarCompra(uuid, compraRequest);
+        assertNotNull(compraRequest);
+    }
+
+    @Test
+    public void testCriarCompraFalhaIdInexistente(){
+
+        //Parâmetros
+        String uuid = "111111111";
+        CompraModelRequest compraRequest = new CompraModelRequest();
+        compraRequest.setTitulo("Controle");
+        compraRequest.setValor(new BigDecimal("50.00"));
+
+        //Esperado
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Não encontramos a conta: " + uuid);
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.ofNullable(null));
+
+        //Teste
+        contaService.criarCompra(uuid, compraRequest);
+    }
+
+    @Test
+    public void testCriarCompraFalhaDinheiroValorNegativo(){
+
+        //Parâmetros
+        String uuid = "111111111";
+        CompraModelRequest compraRequest = new CompraModelRequest();
+        compraRequest.setTitulo("Controle");
+        compraRequest.setValor(new BigDecimal("-0.01"));
+
+        //Esperado
+        thrown.expect(InvalidValueException.class);
+        thrown.expectMessage("Valor inválido para comprar: valor negativo");
+
+        //Objeto para a simulação
+        ContaModelDb contaDb = contaDb();
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        //Teste
+        CompraModelResponse compraResponse = contaService.criarCompra(uuid, compraRequest);
+    }
+
+    @Test
+    public void testCriarCompraFalhaDinheiroInsuficiente(){
+
+        //Parâmetros
+        String uuid = "111111111";
+        CompraModelRequest compraRequest = new CompraModelRequest();
+        compraRequest.setTitulo("Controle");
+        compraRequest.setValor(new BigDecimal("100.01"));
+
+        //Esperado
+        thrown.expect(InvalidValueException.class);
+        thrown.expectMessage("Valor inválido para comprar: valor insuficiente na conta");
+
+        //Objeto para a simulação
+        ContaModelDb contaDb = contaDb();
+
+        //Simulação
+        when(contaRepository.findById(uuid))
+                .thenReturn(Optional.of(contaDb));
+
+        //Teste
+        CompraModelResponse compraResponse = contaService.criarCompra(uuid, compraRequest);
+    }
+
     //Métodos preparadores
     private ContaModelDb contaDb(){
         List<CompraModelDb> compras = new ArrayList<>();
@@ -587,7 +680,7 @@ public class ContaServiceTest {
 
         return compras;
     }
-    
+
     // OBS: Só para o teste de transferência
     private ContaModelDb contaDbRecebe(){
         ContaModelDb contaDbRecebe = new ContaModelDb();

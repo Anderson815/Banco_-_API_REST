@@ -19,4 +19,12 @@ public class CompraModelRequest {
     public BigDecimal getValor() {
         return valor;
     }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
 }
