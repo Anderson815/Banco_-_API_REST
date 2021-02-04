@@ -16,7 +16,7 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
 
 | Endpoint | Método/Verbo | Endpoint                          |  Funcionalidade                                                        |
 |:------:|--------------|-----------------------------------|------------------------------------------------------------------------|
-| 01   | GET          | /conta                            | Retorna todas as contas cadastradas no banco                           |
+| <a href="#1">01</a>   | GET          | /conta                            | Retorna todas as contas cadastradas no banco                           |
 | 02   | GET          | /conta/{uuid}                     | Retorna uma conta específica através do ID informado                   |
 | 03   | POST         | /conta                            | Cadastra uma nova conta no banco                                       |
 | 04   | PUT          | /conta/{uuid}/deposito            | Deposita dinheiro na conta correpondente ao ID informado               |
@@ -29,8 +29,22 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
 
 <br/>
 
-| <p id="1">GET</p> | /conta | Retorna todas as contas cadastradas no banco | 
-|---|---|----------------------------------------------|
+
+<h3 id="1">Endpoint 1:</h3>
+
+| GET | /conta | Retorna todas as contas cadastradas no banco | 
+|---|---|---|
+
+  <h4>Request</h4>
+
+  <p>Não possui parâmetros</p>
+  <p>Exemplo da request: https://bancoapirest.herokuapp.com/conta</p>
+
+  <h4>Response</h4>
+  
+  | Status Code | Status | Motivo     |
+  |-------------|--------|------------|
+  | 200         | OK     | Tudo certo |
 
 <h2 id="habilidade">:mortar_board: Habilidades usadas</h2>
 <ul>
