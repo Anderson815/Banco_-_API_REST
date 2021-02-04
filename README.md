@@ -40,6 +40,8 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
   <p>Não possui parâmetros</p>
   <p>Exemplo da request: https://bancoapirest.herokuapp.com/conta</p>
 
+  <br/>
+
   <h4>Response:</h4>
   
   | Status Code | Status | Motivo     |
@@ -62,6 +64,8 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
   | uuid      | String      | Path |
 
   <p>Exemplo da request: https://bancoapirest.herokuapp.com/conta/abcde</p>
+
+  <br/>
 
   <h4>Response:</h4>
   
@@ -95,6 +99,8 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
 
   <p>Exemplo da request: https://bancoapirest.herokuapp.com/conta</p>
 
+  <br/>
+
   <h4>Response:</h4>
   
   | Status Code | Status | Motivo     |
@@ -119,6 +125,8 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
   | valor     | double      | Query             |
 
   <p>Exemplo da request: https://bancoapirest.herokuapp.com/conta/edcba/deposito?valor=3500.50</p>
+
+  <br/>
 
   <h4>Response:</h4>
   
