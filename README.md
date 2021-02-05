@@ -105,7 +105,7 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
   
   | Status Code | Status | Motivo     |
   |-------------|--------|------------|
-  | 200         | OK     | Tudo certo |
+  | 201         | CREATED     | Tudo certo |
   | 400 | BAD REQUEST | Não foi passado os atributos do objeto de forma adequada |
   
   
