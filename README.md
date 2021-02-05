@@ -1,15 +1,15 @@
 <h1>Banco - API REST</h1>
 <p>
-Este projeto foi um desafio sugerido pelo <a href="https://www.linkedin.com/in/cesar-sales/">Cesar Sales</a> com o objetivo de eu apreder tecnologias, ferramentas e técnicas modernas voltadas ao desenvolvimento backend por meio da linguaguem Java (lista das ferramentas na seção <a href="#habilidade">Habilidades Usadas</a>), além disso ele me deu muitas dicas e orientações ao longo do desenvolvimento.
+Este projeto foi um desafio sugerido pelo <a href="https://www.linkedin.com/in/cesar-sales/">Cesar Sales</a> com o objetivo de eu aprender tecnologias, ferramentas e técnicas modernas voltadas ao desenvolvimento backend por meio da linguaguem Java (lista das ferramentas na seção <a href="#habilidade">Habilidades Usadas</a>), além disso ele me deu muitas dicas e orientações ao longo do desenvolvimento.
 </p>
 <p>
 Esta é uma API de pagamento, eu chamo ela de banco, com ela é possível fazer operações básicas de um banco, como: depositar, sacar, trasferir, comprar e entre outras funcionalidades (todas as funcionalidades estão na seção <a href="#endpoints">Endpoint</a>). 
 </p>
 <p>  
-Embora seja um projeto simples não deixa de ser completo, pois tem relacionamento entre entidades, há validação para as requisições, status code adequado para a resposta, um padrão de exceções, separção por camadas e muitas outras coisas (os meios para testar a aplicação está na seção <a href="#acesso">Para acessar a API</a>) você pode verificar o código. 
+Embora seja um projeto simples não deixa de ser completo, pois tem relacionamento entre entidades, há validação para as requisições, status code adequado para a resposta, um padrão de exceções, separação por camadas e muitas outras coisas (os meios para testar a aplicação está na seção <a href="#acesso">Para acessar a API</a>) você pode verificar o código. 
 </p>
 <p>
-Você pode estar me dar feedback através do <a href="linkedin.com/in/anderson-correia">meu LinkedIn</a> para que eu possa melhorar cada vez mais, falando em LinkedIn você pode também me dar recomendações das habilidades usadas nesse projeto, caso você tenha gostado. Agradeço muito pela sua colaboração.
+Você pode me dar feedback através do <a href="linkedin.com/in/anderson-correia">meu LinkedIn</a> para que eu possa melhorar cada vez mais, falando em LinkedIn você pode também me dar recomendações das habilidades usadas nesse projeto, caso você tenha gostado. Agradeço muito pela sua colaboração.
 </p>
 
 <img src="Midia/Banco_-_API_REST.png">
