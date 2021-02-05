@@ -21,7 +21,7 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
 | <a href="#3">03</a>   | POST         | /conta                            | Cadastra uma nova conta no banco                                       |
 |  <a href="#4">04</a>   | PUT          | /conta/{uuid}/deposito            | Deposita dinheiro na conta correpondente ao ID informado               |
 | <a href="#5">05</a>   | PUT          | /conta/{uuid}/saque               | Saca dinheiro na conta correpondente ao ID informado                   |
-| 06   | PUT          | /conta/{uuidRetira}/transferencia | Transfere dinheiro de uma conta para outra através dos seus IDs        |
+| <a href="#6">06</a>   | PUT          | /conta/{uuidRetira}/transferencia | Transfere dinheiro de uma conta para outra através dos seus IDs        |
 | 07   | DELETE       | /conta/{uuid}                     | Deleta uma conta do banco através do seu ID                            |
 | 08   | GET          | /conta/{uuid}/compra              | Retorna todas as compras da conta do ID informado                      |
 | 09   | GET          | /conta/{uuid}/compra/{id_compra}  | Retorna uma compra especifíca através do seu ID e da Conta responsável |
@@ -163,6 +163,38 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
   |-------------|--------|------------|
   | 200         | OK     | Tudo certo |
   | 404 | NOT FOUND | Não existe conta com o uuid informado |
+  | 400 | BAD REQUEST | Valor abaixo de um centavo |
+  | 400 | BAD REQUEST | Valor de saque acima da quantidade depositada na conta |
+  
+  
+<br/>  
+<br/>    
+
+
+<h3 id="6">Endpoint 6:</h3>
+
+| PUT          | /conta/{uuidRetira}/transferencia | Transfere dinheiro de uma conta para outra através dos seus IDs        |
+|---|---|---|
+
+  <h4>Request:</h4>
+
+  | Parâmetro | Tipo de dado| Tipo de parâmetro |
+  |-----------|-------------|-------------------|
+  | uuidRetira      | String      | Path              |
+  | uuidRecebe      | String      | Query              |
+  | valor     | double      | Query             |
+
+  <p>Exemplo da request: https://bancoapirest.herokuapp.com/conta/bbbbb/transferencia?uuidRecebe=ccccc&valor=150.5</p>
+
+  <br/>
+
+  <h4>Response:</h4>
+  
+  | Status Code | Status | Motivo     |
+  |-------------|--------|------------|
+  | 200         | OK     | Tudo certo |
+  | 404 | NOT FOUND | Não existe conta com o uuid informado para retirar o dinheiro|
+  | 404 | NOT FOUND | Não existe conta com o uuid informado para receber o dinheiro|
   | 400 | BAD REQUEST | Valor abaixo de um centavo |
   | 400 | BAD REQUEST | Valor de saque acima da quantidade depositada na conta |
   
