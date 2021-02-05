@@ -196,7 +196,7 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
   | 404 | NOT FOUND | Não existe conta com o uuid informado para retirar o dinheiro|
   | 404 | NOT FOUND | Não existe conta com o uuid informado para receber o dinheiro|
   | 400 | BAD REQUEST | Valor abaixo de um centavo |
-  | 400 | BAD REQUEST | Valor de saque acima da quantidade depositada na conta |
+  | 400 | BAD REQUEST | Valor de transferência acima da quantidade depositada na conta |
   
   
 <br/>  
