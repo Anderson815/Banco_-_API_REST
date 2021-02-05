@@ -25,7 +25,7 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
 | <a href="#7">07</a>   | DELETE       | /conta/{uuid}                     | Deleta uma conta do banco através do seu ID                            |
 | <a href="#8">08</a>   | GET          | /conta/{uuid}/compra              | Retorna todas as compras da conta do ID informado                      |
 | <a href="#9">09</a>   | GET          | /conta/{uuid}/compra/{id_compra}  | Retorna uma compra especifíca através do seu ID e da Conta responsável |
-| 10   | POST         | /conta/{uuid}/compra              | Cria uma nova compra através do ID da conta responsável                |
+| <a href="#10">10</a>   | POST         | /conta/{uuid}/compra              | Cria uma nova compra através do ID da conta responsável                |
 
 <br/>
 
@@ -283,7 +283,43 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
 <br/>  
 <br/>  
 
+<h3 id="10">Endpoint 10:</h3>
 
+| POST         | /conta/{uuid}/compra              | Cria uma nova compra através do ID da conta responsável                |
+|---|---|---|
+
+  <h4>Request:</h4>
+
+  | Parâmetro | Tipo de dado| Tipo de parâmetro |
+  |-----------|-------------|-------------------|
+  | uuid      | String      | Path |
+  | compraModelRequest | Objeto      | Body (JSON) |
+  
+  <P>Formato do JSON para representar o objeto compraModelRequest:</p>
+  <p>
+    { <br/>
+        "titulo": "string",<br/>
+        "valor": 0 <br/>
+    }
+  </p>
+
+  <p>Exemplo da request: https://bancoapirest.herokuapp.com/conta/ggggg/compra</p>
+
+  <br/>
+
+  <h4>Response:</h4>
+  
+  | Status Code | Status | Motivo     |
+  |-------------|--------|------------|
+  | 201         | CREATED     | Tudo certo |
+  | 404 | NOT FOUND | Não existe conta com o uuid informado |
+  | 400 | BAD REQUEST | Não foi passado os atributos do objeto de forma adequada |
+  | 400 | BAD REQUEST | Valor negativo |
+  | 400 | BAD REQUEST | Valor de compra acima da quantidade depositada na conta |
+  
+  
+<br/>
+<br/>
 
 <h2 id="habilidade">:mortar_board: Habilidades usadas</h2>
 <ul>
