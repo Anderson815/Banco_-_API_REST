@@ -221,7 +221,7 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
   
   | Status Code | Status | Motivo     |
   |-------------|--------|------------|
-  | 200         | OK     | Tudo certo |
+  | 204         | NO CONTENT     | Tudo certo |
   | 404 | NOT FOUND | Não existe conta com o uuid informado |
   | 400 | BAD REQUEST | Existe dinheiro para ser sacado na conta informada |
   
