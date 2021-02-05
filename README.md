@@ -277,7 +277,7 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
   |-------------|--------|------------|
   | 200         | OK     | Tudo certo |
   | 404 | NOT FOUND | Não existe conta com o uuid informado |
-  | 404 | NOT FOUND | Não existe compra com o uuid informado |
+  | 404 | NOT FOUND | Não existe compra com o id_compra informado |
   | 404 | NOT FOUND | A compra existe, mas não pertece a conta informada |
   
 <br/>  
