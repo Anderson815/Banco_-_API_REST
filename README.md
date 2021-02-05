@@ -22,7 +22,7 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
 |  <a href="#4">04</a>   | PUT          | /conta/{uuid}/deposito            | Deposita dinheiro na conta correpondente ao ID informado               |
 | <a href="#5">05</a>   | PUT          | /conta/{uuid}/saque               | Saca dinheiro na conta correpondente ao ID informado                   |
 | <a href="#6">06</a>   | PUT          | /conta/{uuidRetira}/transferencia | Transfere dinheiro de uma conta para outra através dos seus IDs        |
-| 07   | DELETE       | /conta/{uuid}                     | Deleta uma conta do banco através do seu ID                            |
+| <a href="#7">07</a>   | DELETE       | /conta/{uuid}                     | Deleta uma conta do banco através do seu ID                            |
 | 08   | GET          | /conta/{uuid}/compra              | Retorna todas as compras da conta do ID informado                      |
 | 09   | GET          | /conta/{uuid}/compra/{id_compra}  | Retorna uma compra especifíca através do seu ID e da Conta responsável |
 | 10   | POST         | /conta/{uuid}/compra              | Cria uma nova compra através do ID da conta responsável                |
@@ -202,6 +202,32 @@ Embora seja um projeto simples não deixa de ser completo, pois tem relacionamen
 <br/>  
 <br/>    
 
+<h3 id="7">Endpoint 7:</h3>
+
+| DELETE       | /conta/{uuid}                     | Deleta uma conta do banco através do seu ID                            |
+|---|---|---|
+
+  <h4>Request:</h4>
+
+  | Parâmetro | Tipo de dado| Tipo de parâmetro |
+  |-----------|-------------|-------------------|
+  | uuid      | String      | Path              |
+
+  <p>Exemplo da request: https://bancoapirest.herokuapp.com/conta/ddddd</p>
+
+  <br/>
+
+  <h4>Response:</h4>
+  
+  | Status Code | Status | Motivo     |
+  |-------------|--------|------------|
+  | 200         | OK     | Tudo certo |
+  | 404 | NOT FOUND | Não existe conta com o uuid informado |
+  | 400 | BAD REQUEST | Existe dinheiro para ser sacado na conta informada |
+  
+  
+<br/>  
+<br/>    
 
 
 <h2 id="habilidade">:mortar_board: Habilidades usadas</h2>
