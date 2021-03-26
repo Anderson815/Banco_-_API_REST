@@ -35,7 +35,7 @@ public class SwaggerConfig {
                 .description("API REST de uma instituição financeira")
                 .version("1.0")
                 .license("MIT License")
-                .licenseUrl("https://github.com/Anderson815/Banco_-_API_REST/blob/master/LICENSE")
+                .licenseUrl("https://github.com/Anderson815/Banco_-_API_REST/blob/7f8109ea09adfd07b32d6c08b2d763120e3b4ecb/LICENSE")
                 .contact(contato)
                 .build();
     }
