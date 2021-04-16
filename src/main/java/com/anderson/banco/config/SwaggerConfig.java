@@ -23,6 +23,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.anderson.banco"))
                 .paths(regex("/conta.*"))
                 .build()
+                .useDefaultResponseMessages(false)
                 .apiInfo(metaInfo());
     }
 
