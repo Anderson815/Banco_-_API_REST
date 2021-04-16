@@ -64,8 +64,7 @@ public class ContaController {
 	@ApiOperation(value="Deposita dinheiro para a conta pelo ID")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "O dinheiro foi depositado"),
-			@ApiResponse(code = 400, message = "Valor abaixo de um centavo"),
-			@ApiResponse(code = 400, message = "valor acima do limite(5000,00)"),
+			@ApiResponse(code = 400, message = "•Valor abaixo de um centavo \n•valor acima do limite(5000,00"),
 			@ApiResponse(code = 404, message = "Não existe conta com o uuid informado")
 	})
 	public ResponseEntity<ContaModelResponse> depositarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
@@ -76,8 +75,7 @@ public class ContaController {
 	@ApiOperation(value="Saca dinheiro da conta pelo ID")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "O dinheiro foi sacado"),
-			@ApiResponse(code = 400, message = "Valor abaixo de um centavo"),
-			@ApiResponse(code = 400, message = "valor acima da quantidade depositada na conta"),
+			@ApiResponse(code = 400, message = "•Valor abaixo de um centavo \n•Valor acima da quantidade depositada na conta"),
 			@ApiResponse(code = 404, message = "Não existe conta com o uuid informado")
 	})
 	public ResponseEntity<ContaModelResponse> sacarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
@@ -88,10 +86,8 @@ public class ContaController {
 	@ApiOperation(value="Transfere dinheiro de uma conta para outra atráves dos IDs")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "O dinheiro foi transferido"),
-			@ApiResponse(code = 400, message = "Valor abaixo de um centavo"),
-			@ApiResponse(code = 400, message = "Valor de transferência acima da quantidade depositada na conta"),
-			@ApiResponse(code = 404, message = "Não existe conta com o uuid informado para retirar o dinheiro"),
-			@ApiResponse(code = 404, message = "Não existe conta com o uuid informado para receber o dinheiro")
+			@ApiResponse(code = 400, message = "Valor abaixo de um centavo ou valor de transferência acima da quantidade depositada na conta"),
+			@ApiResponse(code = 404, message = "Não existe conta com o uuid informado para retirar o dinheiro ou não existe conta com o uuid informado para receber o dinheiro")
 	})
 	public ResponseEntity<ContaModelResponse> transferir(@PathVariable(value = "uuidRetira") String uuidRetira, @RequestParam(value = "uuidRecebe") String uuidRecebe, @RequestParam(value = "valor") BigDecimal valor){
 		return new ResponseEntity<>(contaService.tranferir(uuidRetira, uuidRecebe, valor), HttpStatus.OK);
@@ -115,7 +111,7 @@ public class ContaController {
 	@ApiOperation(value="Faz uma compra para a conta do ID informado")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "A compra foi criada"),
-			@ApiResponse(code = 400, message = "Valor negativo"),
+			@ApiResponse(code = 400, message = "Valor negativo ou Valor de compra acima da quantidade depositada na conta"),
 			@ApiResponse(code = 400, message = "Valor de compra acima da quantidade depositada na conta"),
 			@ApiResponse(code = 400, message = "Não foi passado os atributos do objeto de forma adequada"),
 			@ApiResponse(code = 404, message = "Não existe conta com o uuid informado")
