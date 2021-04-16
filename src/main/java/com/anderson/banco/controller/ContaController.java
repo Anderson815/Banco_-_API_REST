@@ -64,7 +64,7 @@ public class ContaController {
 	@ApiOperation(value="Deposita dinheiro para a conta pelo ID")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "O dinheiro foi depositado"),
-			@ApiResponse(code = 400, message = "•Valor abaixo de um centavo \n•valor acima do limite(5000,00"),
+			@ApiResponse(code = 400, message = "•Valor abaixo de um centavo •Valor acima do limite(5000,00"),
 			@ApiResponse(code = 404, message = "Não existe conta com o uuid informado")
 	})
 	public ResponseEntity<ContaModelResponse> depositarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
@@ -75,7 +75,7 @@ public class ContaController {
 	@ApiOperation(value="Saca dinheiro da conta pelo ID")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "O dinheiro foi sacado"),
-			@ApiResponse(code = 400, message = "•Valor abaixo de um centavo \n•Valor acima da quantidade depositada na conta"),
+			@ApiResponse(code = 400, message = "•Valor abaixo de um centavo •Valor acima da quantidade depositada na conta"),
 			@ApiResponse(code = 404, message = "Não existe conta com o uuid informado")
 	})
 	public ResponseEntity<ContaModelResponse> sacarDinheiro(@PathVariable String uuid, @RequestParam(value = "valor") BigDecimal valor){
@@ -86,8 +86,8 @@ public class ContaController {
 	@ApiOperation(value="Transfere dinheiro de uma conta para outra atráves dos IDs")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "O dinheiro foi transferido"),
-			@ApiResponse(code = 400, message = "Valor abaixo de um centavo ou valor de transferência acima da quantidade depositada na conta"),
-			@ApiResponse(code = 404, message = "Não existe conta com o uuid informado para retirar o dinheiro ou não existe conta com o uuid informado para receber o dinheiro")
+			@ApiResponse(code = 400, message = "•Valor abaixo de um centavo •Valor de transferência acima da quantidade depositada na conta"),
+			@ApiResponse(code = 404, message = "•Não existe conta com o uuid informado para retirar o dinheiro •Não existe conta com o uuid informado para receber o dinheiro")
 	})
 	public ResponseEntity<ContaModelResponse> transferir(@PathVariable(value = "uuidRetira") String uuidRetira, @RequestParam(value = "uuidRecebe") String uuidRecebe, @RequestParam(value = "valor") BigDecimal valor){
 		return new ResponseEntity<>(contaService.tranferir(uuidRetira, uuidRecebe, valor), HttpStatus.OK);
@@ -111,9 +111,9 @@ public class ContaController {
 	@ApiOperation(value="Faz uma compra para a conta do ID informado")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "A compra foi criada"),
-			@ApiResponse(code = 400, message = "Valor negativo ou Valor de compra acima da quantidade depositada na conta"),
-			@ApiResponse(code = 400, message = "Valor de compra acima da quantidade depositada na conta"),
-			@ApiResponse(code = 400, message = "Não foi passado os atributos do objeto de forma adequada"),
+			@ApiResponse(code = 400, message = "•Valor negativo " +
+					"•Valor de compra acima da quantidade depositada na conta " +
+					"•Não foi passado os atributos do objeto de forma adequada"),
 			@ApiResponse(code = 404, message = "Não existe conta com o uuid informado")
 	})
 	public ResponseEntity<CompraModelResponse> criarCompra(@PathVariable String uuid, @Valid @RequestBody CompraModelRequest compraModelRequest, BindingResult erroRequest){
@@ -135,8 +135,8 @@ public class ContaController {
 	@ApiOperation(value="Retorna uma compra específica pelo ID da compra e o ID da conta")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Retorna a compra informada"),
-			@ApiResponse(code = 404, message = "Não existe conta com o uuid informado"),
-			@ApiResponse(code = 404, message = "Não existe compra com o id_compra informado")
+			@ApiResponse(code = 404, message = "•Não existe conta com o uuid informado " +
+					"•Não existe compra com o id_compra informado")
 	})
 	public ResponseEntity<CompraModelResponse> getCompra(@PathVariable(value = "uuid") String uuid, @PathVariable(value = "id_compra") int id_compra){
 		return new ResponseEntity<>(contaService.getCompra(uuid, id_compra), HttpStatus.OK);
