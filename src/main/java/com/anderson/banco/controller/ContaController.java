@@ -27,19 +27,23 @@ import javax.validation.Valid;
 @Api(tags="Conta")
 @CrossOrigin(origins="*")
 public class ContaController {
-		
+
 	@Autowired //é para gerenciar a dependência, só possível para classes Beans do Spring
 	ContaService contaService;
-	
-	@GetMapping(value="/{uuid}", produces = "application/json")
-	@ApiOperation(value="Retorna uma única conta do banco de acordo com o ID")
-	@ApiResponse( code = 200, message = "Lista de todos os produtos cadastrados")
+
+	@GetMapping(value = "/{uuid}", produces = "application/json")
+	@ApiOperation(value = "Retorna uma única conta do banco de acordo com o ID")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorna o produto informado"),
+			@ApiResponse(code = 404, message = "Não existe conta com o uuid informado")
+	})
 	public ResponseEntity<ContaModelResponse> getConta(@PathVariable String uuid){
 		return new ResponseEntity<>(contaService.getConta(uuid), HttpStatus.OK);
 	}
 
 	@GetMapping(produces = "application/json")
 	@ApiOperation(value="Retorna uma lista com todas as contas do banco")
+	@ApiResponse( code = 200, message = "Lista de todos os produtos cadastrados")
 	public ResponseEntity<List<ContaModelResponse>> getContas(){
 		return new ResponseEntity<>(contaService.getContas(), HttpStatus.OK);
 	}
