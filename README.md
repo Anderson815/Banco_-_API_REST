@@ -1,4 +1,4 @@
-<img src="Midia/Banner.png" alt="Banner do projeto" align="center">
+<p align="center"><img src="Midia/Banner.png" alt="Banner do projeto"></p>
 
 <h1 align="center">Banco API REST</h1>
 <p align="center">Concluído :rocket: </p>
@@ -13,7 +13,7 @@
 
 <h2 id="Sobre">:computer: Sobre o projeto</h2>
 <p>
-Esta é uma API de pagamento, eu chamo ela de banco, com ela é possível fazer operações básicas de um banco, como: depositar, sacar, trasferir, comprar e entre outras funcionalidades (todas as funcionalidades estão na seção <a href="#endpoints">Endpoint</a>). 
+Esta é uma API de pagamento, eu chamo ela de banco, com ela é possível fazer operações básicas de um banco, como: depositar, sacar, trasferir, comprar e entre outras funcionalidades. 
 </p>
 <p>
 Este projeto foi um desafio sugerido pelo <a href="https://www.linkedin.com/in/cesar-sales/">Cesar Sales</a> com o objetivo de eu aprender tecnologias, ferramentas e técnicas modernas voltadas ao desenvolvimento backend por meio da linguaguem Java, além disso ele me deu muitas dicas e orientações ao longo do desenvolvimento.
@@ -33,7 +33,16 @@ Este projeto foi um desafio sugerido pelo <a href="https://www.linkedin.com/in/c
   - [x] Deletar Conta
 
 <p>Endpoints para as funcionalidades: </p>
-<img src="Midia/EndPoints.png">
+<img src="Midia/telas_projeto/Banco_-_API_REST.png">
+
+<p>Consultar todas as contas: </p>
+<img src="Midia/telas_projeto/Get_Contas.png">
+
+<p>Consultar uma conta específica: </p>
+<img src="Midia/telas_projeto/Get_Conta.png">
+
+<p>Depositar dinheiro na conta: </p>
+<img src="Midia/telas_projeto/Put_Deposito.png">
 
 <h2 id="Executar">🚀 Como executar o projeto</h2>
 <p>Você pode ler a documentação e testar a api acessando o swagger do projeto no meu heroku clicando <a href="https://bancoapirest.herokuapp.com/swagger-ui.html#/Conta">aqui</a></p>
