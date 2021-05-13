@@ -74,4 +74,4 @@ Anderson Correia é um entusiasta e apaixonados por programação, focado em res
 
 <h2 id="Licenca">📝 Licença</h2>
 
-<p>Este projeto esta sobe a licença <a href="https://github.com/Anderson815/Banco_-_API_REST/blob/21319def9a25cc7482ffdfaba6b95a8bc2a1fe2d/LICENSE">MIT</a>.</p>
+<p>Este projeto esta sob a licença <a href="https://github.com/Anderson815/Banco_-_API_REST/blob/21319def9a25cc7482ffdfaba6b95a8bc2a1fe2d/LICENSE">MIT</a>.</p>
